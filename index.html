@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NerdWallet · Money Next Steps — Staff PM Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#00ae4d; --green-d:#006842; --green-dd:#00401c; --lime:#8ccb32;
+    --mint:#e6f7ed; --mint-2:#d3f0de;
+    --ink:#1a2620; --muted:#5a6b62; --faint:#8a988f; --line:#e4ebe7; --bg:#f4f8f6;
+    --amber:#b5740f; --amber-bg:#fdf2dd; --blue:#1f6feb; --blue-bg:#e9f1fe; --red:#c0392b; --red-bg:#fbecec;
+    --shadow:0 1px 2px rgba(0,40,20,.05),0 10px 30px rgba(0,40,20,.07);
+    --font:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{letter-spacing:-.6px}
+
+  /* ---------- header ---------- */
+  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:21px;color:var(--green-d);letter-spacing:-.7px}
+  .brand svg{display:block}
+  nav.tabs{display:flex;gap:4px;background:#eef3f0;padding:4px;border-radius:11px}
+  nav.tabs button{border:none;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--muted);padding:8px 15px;border-radius:8px;cursor:pointer;transition:.15s}
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button.on{background:#fff;color:var(--green-d);box-shadow:0 1px 3px rgba(0,40,20,.1)}
+  .pm-toggle{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-weight:600}
+  .switch{width:38px;height:22px;border-radius:20px;background:#cfdad4;position:relative;transition:.2s}
+  .switch::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .pm-on .switch{background:var(--green)}
+  .pm-on .switch::after{left:18px}
+
+  /* ---------- tab/section plumbing ---------- */
+  .view{display:none}
+  .view.active{display:block;animation:fade .35s ease}
+  section.step{display:none}
+  section.step.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  .pill{display:inline-block;background:var(--mint);color:var(--green-d);font-weight:700;font-size:11.5px;padding:6px 13px;border-radius:20px;letter-spacing:.5px}
+  .cta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px 30px;font-size:16px;font-weight:700;cursor:pointer;transition:.15s;font-family:var(--font)}
+  .cta:hover{background:var(--green-d)}
+  .cta:disabled{opacity:.4;cursor:not-allowed}
+  .ghost{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;text-decoration:underline;font-family:var(--font)}
+  .secbar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:34px 0 18px;flex-wrap:wrap}
+  .secbar h2{margin:0;font-size:25px}
+  .secbar p{margin:4px 0 0;color:var(--muted);font-size:14.5px;max-width:560px}
+
+  /* ---------- onboarding ---------- */
+  .hero{text-align:center;padding:54px 0 26px}
+  .hero h1{font-size:42px;line-height:1.08;margin:0 0 14px;font-weight:900}
+  .hero .grad{background:linear-gradient(90deg,var(--green),var(--green-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:17px;color:var(--muted);max-width:580px;margin:0 auto}
+  .prog{display:flex;gap:6px;padding:18px 28px 0}
+  .prog i{height:5px;flex:1;border-radius:3px;background:#e7ede9;transition:.3s}
+  .prog i.done{background:var(--green)}
+  .q{padding:22px 28px;border-bottom:1px solid var(--line)}
+  .q:last-of-type{border-bottom:none}
+  .q h3{margin:0 0 3px;font-size:16.5px}
+  .q .sub{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .opts{display:flex;flex-wrap:wrap;gap:10px}
+  .opt{border:1.5px solid var(--line);background:#fff;border-radius:11px;padding:11px 16px;font-size:14px;cursor:pointer;transition:.15s;font-weight:500}
+  .opt:hover{border-color:#a9c2b6}
+  .opt.sel{border-color:var(--green);background:var(--mint);color:var(--green-d);font-weight:600}
+  .center{text-align:center;margin:26px 0 56px}
+
+  /* ---------- dashboard ---------- */
+  .dash-head{display:flex;gap:26px;align-items:center;flex-wrap:wrap;padding:26px 0 6px}
+  .score-ring{--p:0;width:132px;height:132px;border-radius:50%;flex:none;
+    background:conic-gradient(var(--green) calc(var(--p)*1%),#e7ede9 0);display:grid;place-items:center}
+  .score-ring .inner{width:106px;height:106px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+  .score-ring .num{font-size:34px;font-weight:900;line-height:1}
+  .score-ring .lbl{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.3px}
+  .dash-head h2{margin:0 0 4px;font-size:25px}
+  .dash-head .lead{margin:0;color:var(--muted);font-size:15px;max-width:540px}
+  .tags{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
+  .tag{font-size:12px;font-weight:600;background:#eef3f0;color:#3a4a43;padding:5px 11px;border-radius:8px}
+
+  .modules{display:grid;grid-template-columns:1fr;gap:18px;margin:22px 0 14px}
+  .mod{padding:22px 24px}
+  .mod-top{display:flex;align-items:center;gap:12px}
+  .mod-ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:19px;flex:none}
+  .mod-kicker{font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;font-weight:800;color:var(--faint)}
+  .mod h3{margin:0;font-size:19px}
+  .reco{margin-top:15px;border:1px solid var(--line);border-radius:13px;padding:16px 18px;display:flex;gap:16px;align-items:flex-start}
+  .reco .name{font-weight:700;font-size:16.5px;margin:0 0 3px}
+  .reco .why{font-size:13.5px;color:var(--muted);margin:0}
+  .badge{font-size:11px;font-weight:800;padding:6px 10px;border-radius:8px;white-space:nowrap}
+  .b-green{background:var(--mint);color:var(--green-d)} .b-amber{background:var(--amber-bg);color:var(--amber)}
+  .b-blue{background:var(--blue-bg);color:var(--blue)} .b-red{background:var(--red-bg);color:var(--red)}
+  .stat{display:flex;gap:24px;margin-top:14px;flex-wrap:wrap}
+  .stat div{font-size:13px;color:var(--muted)} .stat b{display:block;font-size:18px;letter-spacing:-.3px;color:var(--ink)}
+  .why-match{font-size:12.5px;background:var(--mint);color:var(--green-d);border-radius:9px;padding:9px 13px;margin-top:13px;display:flex;gap:7px;line-height:1.45}
+
+  /* PM lens */
+  .pm{display:none;margin-top:13px;background:#f3faf6;border:1px dashed #b9dcca;border-radius:11px;padding:13px 15px;font-size:12.5px;color:#36493f}
+  .pm-on .pm{display:block}
+  .pm .pm-l{font-size:10px;letter-spacing:.7px;text-transform:uppercase;font-weight:900;color:var(--green-d);margin-bottom:6px}
+  .pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
+  .pm-banner{display:none;background:linear-gradient(100deg,var(--green-d),var(--green-dd));color:#d8f3e4;border-radius:13px;padding:15px 20px;font-size:13.5px;margin-bottom:6px;align-items:center;gap:11px;line-height:1.45}
+  .pm-on .pm-banner{display:flex}
+
+  /* ---------- competitive analysis ---------- */
+  .matrix{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;height:420px;margin-top:8px;box-shadow:var(--shadow);overflow:hidden}
+  .matrix .axis{position:absolute;background:#eef3f0}
+  .matrix .ax-x{left:8%;right:5%;height:1.5px;top:50%} .matrix .ax-y{top:6%;bottom:12%;width:1.5px;left:50%}
+  .matrix .axlbl{position:absolute;font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+  .blob{position:absolute;transform:translate(-50%,-50%);text-align:center}
+  .blob .b-dot{width:var(--s);height:var(--s);border-radius:50%;margin:0 auto;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+  .blob .b-name{font-size:11.5px;font-weight:700;margin-top:5px;white-space:nowrap}
+  .ctable{width:100%;border-collapse:collapse;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .ctable th,.ctable td{padding:13px 15px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--line)}
+  .ctable th{background:#f3f7f5;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  .ctable td:first-child{font-weight:700}
+  .ctable tr:last-child td{border-bottom:none}
+  .ctable .nw{background:var(--mint)}
+  .chk{color:var(--green);font-weight:800} .x{color:var(--faint)} .partial{color:var(--amber);font-weight:700}
+  .opp{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .opp .card{padding:18px 20px}
+  .opp .h{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;margin-bottom:6px}
+  .opp .num{width:26px;height:26px;border-radius:8px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+  .opp p{margin:0;font-size:13px;color:var(--muted)}
+  .opp .imp{display:inline-block;margin-top:10px;font-size:11px;font-weight:800;padding:4px 9px;border-radius:7px}
+
+  /* ---------- metrics & roadmap ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+  .kpi{padding:18px 20px}
+  .kpi .k-lbl{font-size:12px;color:var(--muted);font-weight:600}
+  .kpi .k-val{font-size:30px;font-weight:900;letter-spacing:-1px;margin:6px 0 2px}
+  .kpi .k-delta{font-size:12.5px;font-weight:700} .up{color:var(--green)} .down{color:var(--red)}
+  .funnel{padding:22px 24px;margin-top:16px}
+  .funnel h3{margin:0 0 16px;font-size:17px}
+  .fstep{display:flex;align-items:center;gap:14px;margin-bottom:11px}
+  .fstep .fl{width:200px;font-size:13.5px;font-weight:600;flex:none}
+  .fbar-track{flex:1;background:#eef3f0;border-radius:8px;height:34px;overflow:hidden;position:relative}
+  .fbar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-d));border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:11px;color:#fff;font-weight:700;font-size:13px;transition:width 1s ease}
+  .fstep .fp{width:120px;font-size:12.5px;color:var(--muted);text-align:right;flex:none}
+  .fstep .fp b{color:var(--red)}
+  .abrow{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+  .ab{padding:18px 20px}
+  .ab .a-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+  .ab .a-name{font-weight:700;font-size:15px}
+  .ab .a-stat{font-size:11px;font-weight:800;padding:4px 9px;border-radius:7px}
+  .ab .a-hyp{font-size:13px;color:var(--muted);margin:6px 0 12px}
+  .ab .a-res{display:flex;gap:18px}
+  .ab .a-res div{font-size:12px;color:var(--muted)} .ab .a-res b{display:block;font-size:19px;color:var(--ink)}
+  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .lane{padding:18px 20px}
+  .lane .l-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding-bottom:11px;border-bottom:2px solid var(--line);margin-bottom:13px}
+  .lane.now .l-h{color:var(--green-d);border-color:var(--green)} .lane.next .l-h{color:var(--blue)} .lane.later .l-h{color:var(--faint)}
+  .ritem{font-size:13.5px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .ritem:last-child{border-bottom:none} .ritem .rt{font-weight:700} .ritem .rd{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .ritem .vert{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle}
+  .v-credit{background:var(--mint);color:var(--green-d)} .v-lend{background:var(--blue-bg);color:var(--blue)} .v-wealth{background:var(--amber-bg);color:var(--amber)}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:22px 0;text-align:center;color:var(--faint);font-size:12px;margin-top:30px}
+  @media(max-width:860px){.kpis,.opp,.road,.abrow{grid-template-columns:1fr 1fr}.pm-grid{grid-template-columns:1fr}}
+  @media(max-width:680px){.hero h1{font-size:32px}.kpis,.opp,.road,.abrow{grid-template-columns:1fr}nav.tabs button{padding:8px 10px}.fstep .fl{width:120px}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points="10,90 10,30 40,60 40,90" fill="#006842"/>
+      <polygon points="10,30 10,10 60,60 40,60" fill="#00ae4d"/>
+      <polygon points="60,60 60,10 90,10 90,40" fill="#8ccb32"/>
+      <polygon points="90,40 90,90 60,60" fill="#00ae4d"/>
+    </svg>
+    nerdwallet
+  </div>
+  <nav class="tabs">
+    <button class="on" data-view="plan">My Plan</button>
+    <button data-view="market">Market Intel</button>
+    <button data-view="metrics">Metrics &amp; Roadmap</button>
+  </nav>
+  <div class="pm-toggle" id="pmToggle"><span>PM lens</span><span class="switch"></span></div>
+</div></header>
+
+<main class="wrap">
+
+<!-- ============ VIEW: PLAN ============ -->
+<div class="view active" id="view-plan">
+
+  <!-- onboarding -->
+  <section class="step active" id="step1">
+    <div class="hero">
+      <span class="pill">PERSONALIZED · DATA-DRIVEN</span>
+      <h1>What's your smartest<br><span class="grad">money move</span> right now?</h1>
+      <p>Answer 5 quick questions. We read your financial profile and surface your best next step across credit cards, loans, and investing — sequenced, in one place.</p>
+    </div>
+    <div class="card">
+      <div class="prog" id="prog"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="q" data-key="credit">
+        <h3>Where's your credit score?</h3><p class="sub">Used to estimate approval odds via a soft check — no score impact.</p>
+        <div class="opts">
+          <div class="opt" data-val="excellent">Excellent (720+)</div><div class="opt" data-val="good">Good (690–719)</div>
+          <div class="opt" data-val="fair">Fair (630–689)</div><div class="opt" data-val="building">Building (&lt;630)</div>
+        </div>
+      </div>
+      <div class="q" data-key="goal">
+        <h3>What matters most right now?</h3><p class="sub">Your primary goal re-ranks every recommendation below.</p>
+        <div class="opts">
+          <div class="opt" data-val="rewards">Earn more rewards</div><div class="opt" data-val="debt">Pay down debt</div>
+          <div class="opt" data-val="build">Build my credit</div><div class="opt" data-val="grow">Grow my wealth</div>
+        </div>
+      </div>
+      <div class="q" data-key="cash">
+        <h3>After bills, what's left over monthly?</h3><p class="sub">Drives whether we lead with payoff or investing.</p>
+        <div class="opts">
+          <div class="opt" data-val="tight">Tight — little to spare</div><div class="opt" data-val="some">A few hundred dollars</div>
+          <div class="opt" data-val="lots">$1,000+ to put to work</div>
+        </div>
+      </div>
+      <div class="q" data-key="debt">
+        <h3>Carrying high-interest debt?</h3><p class="sub">Card balances at 20%+ APR change the math fast.</p>
+        <div class="opts">
+          <div class="opt" data-val="card">Yes — credit card balances</div><div class="opt" data-val="student">Student / other loans</div>
+          <div class="opt" data-val="none">No, I'm debt-free</div>
+        </div>
+      </div>
+      <div class="q" data-key="horizon">
+        <h3>When do you need this money?</h3><p class="sub">Sets investment risk and product fit.</p>
+        <div class="opts">
+          <div class="opt" data-val="short">Under 2 years</div><div class="opt" data-val="mid">2–7 years</div>
+          <div class="opt" data-val="long">7+ years (retirement)</div>
+        </div>
+      </div>
+    </div>
+    <div class="center">
+      <button class="cta" id="go" disabled>See my money next steps →</button>
+      <div style="margin-top:14px"><button class="ghost" id="demoFill">Skip — use a sample profile</button></div>
+    </div>
+  </section>
+
+  <!-- results -->
+  <section class="step" id="step2">
+    <div class="pm-banner">🎯 <span><b>North Star — Activated Members:</b> share completing ≥1 recommended action within 30 days. Each module is a lever; turn on PM lens for the personalization logic, the metric it moves, and the live experiment.</span></div>
+    <div class="dash-head">
+      <div class="score-ring" id="ring"><div class="inner"><div><div class="num" id="scoreNum">—</div><div class="lbl">MONEY HEALTH</div></div></div></div>
+      <div>
+        <h2 id="dashTitle">Your personalized plan</h2>
+        <p class="lead" id="dashSub"></p>
+        <div class="tags" id="tags"></div>
+      </div>
+    </div>
+    <div class="modules" id="modules"></div>
+    <div class="center"><button class="ghost" id="restart">↺ Start over with a different profile</button></div>
+  </section>
+</div>
+
+<!-- ============ VIEW: MARKET INTEL ============ -->
+<div class="view" id="view-market">
+  <div class="secbar">
+    <div><h2>Competitive landscape</h2><p>Where NerdWallet sits vs. the field across our three verticals — and the gaps worth attacking.</p></div>
+    <span class="pill">MARKET ANALYSIS</span>
+  </div>
+  <div class="matrix">
+    <div class="axis ax-x"></div><div class="axis ax-y"></div>
+    <div class="axlbl" style="left:8%;top:48%;transform:translateY(-130%)">← Single product</div>
+    <div class="axlbl" style="right:5%;top:48%;transform:translateY(-130%);text-align:right">Full-stack money →</div>
+    <div class="axlbl" style="left:51%;top:4%">High personalization ↑</div>
+    <div class="axlbl" style="left:51%;bottom:7%">↓ Generic / editorial</div>
+    <!-- blobs: left%, top%, size, color, label, initials -->
+    <div class="blob" style="left:72%;top:30%"><div class="b-dot" style="--s:64px;background:linear-gradient(135deg,#00ae4d,#006842)">NW</div><div class="b-name">NerdWallet</div></div>
+    <div class="blob" style="left:60%;top:58%"><div class="b-dot" style="--s:54px;background:#1f6feb">CK</div><div class="b-name">Credit Karma</div></div>
+    <div class="blob" style="left:30%;top:40%"><div class="b-dot" style="--s:44px;background:#7b54c4">WH</div><div class="b-name">WalletHub</div></div>
+    <div class="blob" style="left:33%;top:70%"><div class="b-dot" style="--s:48px;background:#b5740f">BR</div><div class="b-name">Bankrate</div></div>
+    <div class="blob" style="left:80%;top:72%"><div class="b-dot" style="--s:42px;background:#444">MF</div><div class="b-name">Monarch / Fidelity</div></div>
+  </div>
+
+  <div class="secbar"><div><h2>Feature coverage</h2><p>Depth across the three verticals NerdWallet is investing in.</p></div></div>
+  <table class="ctable">
+    <thead><tr><th>Capability</th><th class="nw">NerdWallet</th><th>Credit Karma</th><th>WalletHub</th><th>Bankrate</th></tr></thead>
+    <tbody>
+      <tr><td>Personalized card matching</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Medium</td><td><span class="x">○</span> Editorial</td></tr>
+      <tr><td>Approval-odds / pre-qual</td><td class="nw"><span class="partial">◐</span> Partial</td><td><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Partial</td><td><span class="x">○</span> None</td></tr>
+      <tr><td>Lending marketplace (consolidation, refi)</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Partial</td><td><span class="partial">◐</span> Medium</td><td><span class="chk">●</span> Strong</td></tr>
+      <tr><td>Investment / wealth guidance</td><td class="nw"><span class="x">○</span> Gap</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td><td><span class="partial">◐</span> Content</td></tr>
+      <tr><td>Cross-vertical sequencing (payoff→invest)</td><td class="nw"><span class="x">○</span> Gap</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td></tr>
+      <tr><td>Bureau data integration</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="x">○</span> None</td></tr>
+    </tbody>
+  </table>
+
+  <div class="secbar"><div><h2>Where NerdWallet can win</h2><p>The three white-space bets that fall out of the matrix above.</p></div></div>
+  <div class="opp">
+    <div class="card"><div class="h"><span class="num">1</span>Own the sequence</div><p>No competitor connects payoff → credit-build → invest into one ordered plan. This is the moat: trust from telling members what <i>not</i> to do.</p><span class="imp b-green">High impact · Med effort</span></div>
+    <div class="card"><div class="h"><span class="num">2</span>Enter wealth</div><p>Investment guidance is a gap for every editorial-first competitor. Bridge our credit audience into a managed/robo offering via partner APIs.</p><span class="imp b-amber">High impact · High effort</span></div>
+    <div class="card"><div class="h"><span class="num">3</span>Close the approval-odds gap</div><p>Credit Karma leads on pre-qual certainty. Deepen bureau integration to match — it's our biggest card-conversion leak.</p><span class="imp b-blue">Med impact · Med effort</span></div>
+  </div>
+</div>
+
+<!-- ============ VIEW: METRICS ============ -->
+<div class="view" id="view-metrics">
+  <div class="secbar"><div><h2>Live in the numbers</h2><p>How the product is performing and where the experiments are pointed.</p></div><span class="pill">PERFORMANCE</span></div>
+  <div class="kpis">
+    <div class="card kpi"><div class="k-lbl">Activated members (30d)</div><div class="k-val">38.4%</div><div class="k-delta up">▲ 4.1 pts vs. last Q</div></div>
+    <div class="card kpi"><div class="k-lbl">Card application CVR</div><div class="k-val">11.2%</div><div class="k-delta up">▲ 0.9 pts</div></div>
+    <div class="card kpi"><div class="k-lbl">Lending lead → partner</div><div class="k-val">6.7%</div><div class="k-delta down">▼ 0.3 pts</div></div>
+    <div class="card kpi"><div class="k-lbl">Revenue / active user</div><div class="k-val">$4.82</div><div class="k-delta up">▲ 12%</div></div>
+  </div>
+
+  <div class="card funnel">
+    <h3>Activation funnel — biggest leak flagged</h3>
+    <div class="fstep"><div class="fl">Start onboarding</div><div class="fbar-track"><div class="fbar" style="width:100%">100%</div></div><div class="fp">100,000 users</div></div>
+    <div class="fstep"><div class="fl">Complete profile</div><div class="fbar-track"><div class="fbar" style="width:71%">71%</div></div><div class="fp">71,000</div></div>
+    <div class="fstep"><div class="fl">View plan</div><div class="fbar-track"><div class="fbar" style="width:64%">64%</div></div><div class="fp">64,000</div></div>
+    <div class="fstep"><div class="fl">Click a recommendation</div><div class="fbar-track"><div class="fbar" style="width:41%">41%</div></div><div class="fp"><b>↓ 23pt leak</b></div></div>
+    <div class="fstep"><div class="fl">Complete action (activate)</div><div class="fbar-track"><div class="fbar" style="width:38%">38%</div></div><div class="fp">38,000</div></div>
+  </div>
+
+  <div class="secbar"><div><h2>Experiments in flight</h2><p>A/B tests targeting the funnel leaks above.</p></div></div>
+  <div class="abrow">
+    <div class="card ab"><div class="a-top"><span class="a-name">Approval-odds badge on card module</span><span class="a-stat b-green">95% sig · shipping</span></div><p class="a-hyp">H: Leading with "you're likely approved" beats leading with the welcome bonus on card-click rate.</p><div class="a-res"><div><b>+8.3%</b>card clicks</div><div><b>+2.1%</b>approved apps</div><div><b>n=42k</b>sample</div></div></div>
+    <div class="card ab"><div class="a-top"><span class="a-name">$-savings shown up front (lending)</span><span class="a-stat b-amber">running · 80%</span></div><p class="a-hyp">H: Showing estimated monthly savings before "check rate" lifts qualified-lead rate.</p><div class="a-res"><div><b>+5.6%</b>lead rate</div><div><b>−1.2%</b>quality</div><div><b>n=18k</b>sample</div></div></div>
+    <div class="card ab"><div class="a-top"><span class="a-name">Sequencing nudge (payoff before invest)</span><span class="a-stat b-blue">design</span></div><p class="a-hyp">H: Explicitly gating investing behind debt payoff raises 30-day activation without hurting trust scores.</p><div class="a-res"><div><b>—</b>TBD</div><div><b>Q3</b>launch</div><div><b>—</b></div></div></div>
+    <div class="card ab"><div class="a-top"><span class="a-name">Low-friction "$50 to start" investing</span><span class="a-stat b-red">lost · learn</span></div><p class="a-hyp">H: Small-dollar framing beats 30-yr projection on account-funding.</p><div class="a-res"><div><b>−3.4%</b>funding</div><div><b>95% sig</b>result</div><div><b>n=29k</b>sample</div></div></div>
+  </div>
+
+  <div class="secbar"><div><h2>Roadmap</h2><p>Now / Next / Later across the three verticals.</p></div></div>
+  <div class="road">
+    <div class="card lane now"><div class="l-h">● Now · this quarter</div>
+      <div class="ritem"><div class="rt">Ship approval-odds badge <span class="vert v-credit">CREDIT</span></div><div class="rd">Roll winning A/B to 100%; deepen bureau pre-qual.</div></div>
+      <div class="ritem"><div class="rt">Cross-vertical sequencing engine <span class="vert v-wealth">WEALTH</span></div><div class="rd">Payoff-before-invest logic powering this prototype.</div></div>
+      <div class="ritem"><div class="rt">Fix recommendation-click leak <span class="vert v-lend">LENDING</span></div><div class="rd">23pt funnel drop — clarify offer value up front.</div></div>
+    </div>
+    <div class="card lane next"><div class="l-h">◗ Next · 1–2 quarters</div>
+      <div class="ritem"><div class="rt">Wealth partner integration <span class="vert v-wealth">WEALTH</span></div><div class="rd">Robo-advisor API for managed portfolios.</div></div>
+      <div class="ritem"><div class="rt">Real-time bureau refresh <span class="vert v-credit">CREDIT</span></div><div class="rd">Move from monthly to event-driven score pulls.</div></div>
+      <div class="ritem"><div class="rt">ML re-ranking of modules <span class="vert v-lend">LENDING</span></div><div class="rd">Personalize module order by predicted activation.</div></div>
+    </div>
+    <div class="card lane later"><div class="l-h">○ Later · exploring</div>
+      <div class="ritem"><div class="rt">Goal-based planning hub <span class="vert v-wealth">WEALTH</span></div><div class="rd">Multi-goal tracking beyond single next step.</div></div>
+      <div class="ritem"><div class="rt">Embedded checkout w/ partners <span class="vert v-credit">CREDIT</span></div><div class="rd">Reduce hand-off drop with in-app apply.</div></div>
+      <div class="ritem"><div class="rt">Proactive life-event triggers <span class="vert v-lend">LENDING</span></div><div class="rd">Detect rate-drop / income change → nudge refi.</div></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="wrap" style="max-width:none">Prototype · NerdWallet Staff PM — Personalized Money Next Steps. Brand colors #00AE4D / #006842 / #8CCB32. Sample data for demonstration only.</footer>
+
+<script>
+const answers={credit:null,goal:null,cash:null,debt:null,horizon:null};
+const order=['credit','goal','cash','debt','horizon'];
+
+document.querySelectorAll('.q').forEach(q=>{
+  const key=q.dataset.key;
+  q.querySelectorAll('.opt').forEach(opt=>opt.onclick=()=>{
+    q.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+    opt.classList.add('sel'); answers[key]=opt.dataset.val; refreshProg();
+  });
+});
+function refreshProg(){
+  const bars=document.querySelectorAll('#prog i');
+  order.forEach((k,i)=>bars[i].classList.toggle('done',!!answers[k]));
+  document.getElementById('go').disabled=order.some(k=>!answers[k]);
+}
+document.getElementById('demoFill').onclick=()=>{
+  const s={credit:'good',goal:'grow',cash:'some',debt:'card',horizon:'long'};
+  Object.entries(s).forEach(([k,v])=>{
+    const q=document.querySelector(`.q[data-key="${k}"]`);
+    q.querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel',o.dataset.val===v)); answers[k]=v;
+  });
+  refreshProg(); document.getElementById('go').scrollIntoView({behavior:'smooth'});
+};
+
+/* tabs */
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+b.dataset.view).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('pmToggle').onclick=()=>document.body.classList.toggle('pm-on');
+
+/* engine */
+function buildPlan(a){
+  let s=540;
+  s+={excellent:130,good:95,fair:55,building:22}[a.credit];
+  s+={lots:95,some:55,tight:18}[a.cash];
+  s+={none:75,student:42,card:8}[a.debt];
+  s=Math.max(500,Math.min(820,s));
+  const tags=[
+    {excellent:'Excellent credit',good:'Good credit',fair:'Fair credit',building:'Building credit'}[a.credit],
+    {rewards:'Goal: rewards',debt:'Goal: payoff',build:'Goal: credit',grow:'Goal: investing'}[a.goal],
+    {short:'Short horizon',mid:'Mid horizon',long:'Long horizon'}[a.horizon]
+  ];
+  if(a.debt==='card')tags.push('High-interest debt'); if(a.cash==='lots')tags.push('Strong cash flow');
+  const debtFirst=a.debt==='card';
+
+  let card;
+  if(a.credit==='building') card={name:'NerdWallet Secured Builder Card',why:'Reports to all 3 bureaus to build history fast, refundable deposit.',badge:['Likely approved','b-green'],stats:[['Approval odds','High'],['Annual fee','$0'],['Reports to','3 bureaus']],match:'You\'re building credit — we lead with approval certainty over rewards.'};
+  else if(a.debt==='card') card={name:'NerdWallet 0% APR Transfer Card',why:'21 months at 0% intro APR — stop the interest bleed while you pay down balances.',badge:['Best for payoff','b-amber'],stats:[['Intro APR','0% / 21mo'],['Est. interest saved','~$1,180'],['Transfer fee','3%']],match:'You carry card debt, so a balance-transfer card outranks any rewards card.'};
+  else if(a.goal==='rewards'||a.credit==='excellent') card={name:'NerdWallet Cash Rewards Elite',why:'5% rotating categories, 2% everywhere — fits a maximizer with strong credit.',badge:['Pre-qualified','b-green'],stats:[['Approval odds','Very high'],['Welcome bonus','$250'],['Annual fee','$0']],match:'Excellent credit + rewards goal → highest-earn card you\'ll likely get.'};
+  else card={name:'NerdWallet Everyday 2% Card',why:'Flat 2% cash back, no annual fee, nothing to track.',badge:['Good match','b-green'],stats:[['Approval odds','High'],['Annual fee','$0'],['Cash back','2% flat']],match:'Good credit + simplicity → a reliable flat-rate earner.'};
+
+  let loan;
+  if(a.debt==='card') loan={name:'Debt consolidation loan — 9.4% APR',why:'Roll high-APR card balances into one fixed payment and cut total interest.',badge:['Top opportunity','b-amber'],stats:[['Est. monthly savings','$140'],['Payoff','~31 months'],['APR','9.4% fixed']],match:'Highest-impact move: consolidating 22% card APR into single-digit fixed debt.'};
+  else if(a.debt==='student') loan={name:'Student loan refinance — 6.1% APR',why:'Refinance to a lower rate now that your credit has improved.',badge:['Worth checking','b-blue'],stats:[['Potential savings','$60/mo'],['Soft check','No impact'],['APR','6.1%']],match:'You hold student/other loans and have the credit to refinance lower.'};
+  else if(a.goal==='build'||a.credit==='building') loan={name:'Credit-builder loan',why:'A small installment loan designed purely to add positive payment history.',badge:['Builds credit','b-green'],stats:[['Loan size','$500–1k'],['Reports to','3 bureaus'],['Term','12 mo']],match:'No costly debt to refinance — so we use lending as a credit tool instead.'};
+  else loan={name:'You don\'t need a loan right now',why:'No high-interest debt to consolidate — we won\'t push a product you don\'t need.',badge:['No action needed','b-green'],stats:[['Recommendation','Skip'],['Revisit','Big expense'],['Trust','+1']],match:'Consumer-first: when lending doesn\'t help you, we say so.'};
+
+  let invest;
+  if(a.debt==='card') invest={name:'Hold investing — clear card debt first',why:'A 22% APR balance beats any expected market return. Pay it down, then invest.',badge:['Sequenced','b-amber'],stats:[['Guaranteed "return"','22%'],['Then','Auto-invest'],['Saves','~$1,180']],match:'We sequence: paying 22% debt is the best "investment" available today.'};
+  else if(a.cash==='lots'&&a.horizon==='long') invest={name:'Open a Roth IRA + auto-invest $500/mo',why:'Tax-free growth and strong cash flow make this your highest-leverage long-term move.',badge:['Start now','b-blue'],stats:[['Proj. @30yr','~$590k'],['Advisory fee','0.25%'],['Tax','Tax-free']],match:'Strong surplus + long horizon → front-load tax-advantaged investing.'};
+  else if(a.horizon==='short') invest={name:'High-yield savings, not the market',why:'Under a 2-year horizon, market risk isn\'t worth it. Park cash at 4.3% APY.',badge:['Right vehicle','b-green'],stats:[['APY','4.3%'],['Risk','None'],['Liquidity','Instant']],match:'Short horizon → capital preservation beats returns. Matched to your timeline.'};
+  else if(a.cash==='some') invest={name:'Start a $50/mo robo-portfolio',why:'Begin compounding now with an automated, diversified portfolio matched to your risk.',badge:['Good start','b-blue'],stats:[['Start with','$50/mo'],['Portfolio','Auto-diversified'],['Fee','0.25%']],match:'Modest surplus → start small and automatic; the habit beats the amount.'};
+  else invest={name:'Build a 1-month emergency fund first',why:'Before investing, a cash cushion protects you from new high-interest debt.',badge:['Foundation','b-green'],stats:[['Target','1mo expenses'],['Where','HYSA 4.3%'],['Then','Invest']],match:'Tight cash flow → safety net before market risk. Investing comes after stability.'};
+
+  return {s,tags,card,loan,invest,debtFirst};
+}
+const PM={
+  card:{logic:'Approval-odds model (credit band) × goal weighting. Debt-carriers get balance-transfer over rewards.',metric:'Card application → approval conversion',ab:'Live: "approval odds" badge vs. "welcome bonus" as primary hook (+8.3% clicks).'},
+  loan:{logic:'Debt profile drives offer type; module is suppressed when no loan helps the member.',metric:'Qualified lead → partner hand-off rate',ab:'Running: $-savings shown up front vs. behind "check my rate".'},
+  invest:{logic:'Cash-flow tier × horizon, gated by debt. We sequence payoff before investing when APR > expected return.',metric:'Account funded within 14 days (activation)',ab:'Design: sequencing nudge — gate investing behind payoff, watch trust score.'}
+};
+
+function render(){
+  const a=answers,p=buildPlan(a);
+  const pct=Math.round(((p.s-500)/320)*100);
+  const ring=document.getElementById('ring');
+  document.getElementById('scoreNum').textContent=p.s;
+  let cur=0;const t=setInterval(()=>{cur+=3;if(cur>=pct){cur=pct;clearInterval(t);}ring.style.setProperty('--p',cur);},12);
+  document.getElementById('dashSub').textContent=p.debtFirst
+    ?'You\'re carrying high-interest debt, so we sequenced the plan to kill that first — then build and grow.'
+    :'Here\'s your prioritized plan across credit, lending, and investing — tuned to your profile, goal, and time horizon.';
+  document.getElementById('tags').innerHTML=p.tags.map(x=>`<span class="tag">${x}</span>`).join('');
+  const mods=[
+    {k:'card',kicker:'Consumer Credit',title:'Your card match',ico:'💳',bg:'#e6f7ed',d:p.card},
+    {k:'loan',kicker:'Financial Services',title:'Lending move',ico:'🏦',bg:'#e9f1fe',d:p.loan},
+    {k:'invest',kicker:'Investment Products',title:'Wealth step',ico:'📈',bg:'#fdf2dd',d:p.invest}];
+  document.getElementById('modules').innerHTML=mods.map(m=>`
+    <div class="card mod">
+      <div class="mod-top"><div class="mod-ico" style="background:${m.bg}">${m.ico}</div>
+      <div><div class="mod-kicker">${m.kicker}</div><h3>${m.title}</h3></div></div>
+      <div class="reco"><div style="flex:1">
+        <p class="name">${m.d.name}</p><p class="why">${m.d.why}</p>
+        <div class="stat">${m.d.stats.map(s=>`<div><b>${s[1]}</b>${s[0]}</div>`).join('')}</div>
+      </div><span class="badge ${m.d.badge[1]}">${m.d.badge[0]}</span></div>
+      <div class="why-match">✨ <span>${m.d.match}</span></div>
+      <div class="pm"><div class="pm-l">PM lens · ${m.kicker}</div><div class="pm-grid">
+        <div><b>Personalization logic:</b> ${PM[m.k].logic}</div>
+        <div><b>Metric it moves:</b> ${PM[m.k].metric}</div>
+        <div style="grid-column:1/-1"><b>Experiment:</b> ${PM[m.k].ab}</div>
+      </div></div>
+    </div>`).join('');
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('go').onclick=render;
+document.getElementById('restart').onclick=()=>{
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('step1').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+</script>
+</body>
+</html>
