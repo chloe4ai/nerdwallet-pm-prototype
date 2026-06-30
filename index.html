@@ -161,6 +161,57 @@
   .ritem .vert{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle}
   .v-credit{background:var(--mint);color:var(--green-d)} .v-lend{background:var(--blue-bg);color:var(--blue)} .v-wealth{background:var(--amber-bg);color:var(--amber)}
 
+  /* interactive: market intel */
+  .vtabs{display:flex;gap:8px;margin:4px 0 14px;flex-wrap:wrap}
+  .vtab{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted);transition:.15s;font-family:var(--font)}
+  .vtab:hover{border-color:#a9c2b6}
+  .vtab.on{border-color:var(--green);background:var(--mint);color:var(--green-d)}
+  .vsum{font-size:14px;color:#3a4a43;margin:0 0 14px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:12px 15px}
+  .blob{cursor:pointer;transition:transform .15s}
+  .blob:hover{transform:translate(-50%,-50%) scale(1.07)}
+  .blob.sel .b-dot{outline:3px solid var(--green);outline-offset:3px}
+  .cdetail{display:none;margin-top:14px}
+  .cdetail.show{display:block;animation:fade .2s ease}
+  .cdetail .card{padding:18px 20px}
+  .cd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
+  .cd{font-size:13px;line-height:1.5}
+  .cd .cd-l{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .cd-l.s{color:var(--green-d)} .cd-l.w{color:var(--red)} .cd-l.a{color:var(--blue)}
+  .opp-c{cursor:pointer}
+  .o-more,.r-more,.a-more{font-size:12.5px;color:var(--muted)}
+  /* segment toggle + sim */
+  .seg{display:inline-flex;gap:4px;background:#eef3f0;padding:4px;border-radius:10px;margin-bottom:14px}
+  .seg button{border:none;background:none;font-family:var(--font);font-size:13px;font-weight:600;color:var(--muted);padding:7px 15px;border-radius:7px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--green-d);box-shadow:0 1px 3px rgba(0,40,20,.1)}
+  .simwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:20px;border-top:1px solid var(--line);padding-top:20px}
+  .sc-h{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:13px}
+  .sld{margin-bottom:16px}
+  .sld .sl-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+  .sld .sl-top b{color:var(--green-d)}
+  .sld input[type=range]{width:100%;accent-color:var(--green);cursor:pointer}
+  .simout-box{background:#f3faf6;border:1px solid #cfe7da;border-radius:13px;padding:18px 20px}
+  .so-big{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+  .so-row{display:flex;justify-content:space-between;font-size:13.5px;padding:8px 0;border-bottom:1px dashed #cfe7da}
+  .so-row:last-child{border:none}
+  .so-delta.up{color:var(--green-d);font-weight:800}.so-delta.down{color:var(--red);font-weight:800}.so-delta.flat{color:var(--faint);font-weight:700}
+  .simreset{margin-top:6px}
+  /* a/b expandable */
+  .ab{cursor:pointer}
+  .ab .a-more{display:none;margin-top:13px;border-top:1px dashed var(--line);padding-top:12px;line-height:1.55}
+  .ab.open .a-more{display:block;animation:fade .2s ease}
+  .a-dec{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+  .a-dec button{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--font);color:var(--muted)}
+  .a-dec button.on{border-color:var(--green);background:var(--mint);color:var(--green-d)}
+  .applylever{margin-top:11px;background:var(--green);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--font)}
+  .applylever:hover{background:var(--green-d)}
+  /* roadmap interactive */
+  .chips{display:flex;gap:7px;flex-wrap:wrap}
+  .chip{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--muted);font-family:var(--font)}
+  .chip.on{border-color:var(--green);background:var(--mint);color:var(--green-d)}
+  .ritem{cursor:pointer}
+  .ritem .r-more{display:none;margin-top:7px;padding-top:7px;border-top:1px dashed var(--line)}
+  .ritem.open .r-more{display:block} .ritem.hide{display:none}
+  @media(max-width:680px){.simwrap,.cd-grid{grid-template-columns:1fr}}
   .viewbtn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--green);color:var(--green-d);font-weight:700;font-size:13.5px;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:var(--font);transition:.15s}
   .viewbtn:hover{background:var(--mint)}
   .overlay{position:fixed;inset:0;background:rgba(16,30,24,.55);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:42px 18px;overflow:auto}
@@ -278,90 +329,41 @@
 
 <!-- ============ VIEW: MARKET INTEL ============ -->
 <div class="view" id="view-market">
-  <div class="secbar">
-    <div><h2>Competitive landscape</h2><p>Where NerdWallet sits vs. the field across our three verticals — and the gaps worth attacking.</p></div>
-    <span class="pill">MARKET ANALYSIS</span>
-  </div>
-  <div class="matrix">
+  <div class="secbar"><div><h2>Competitive landscape</h2><p>Pick a vertical — the positioning map, feature grid, and white-space bets all update. Click any competitor to see our angle.</p></div><span class="pill">MARKET ANALYSIS</span></div>
+  <div class="vtabs" id="vtabs"></div>
+  <p class="vsum" id="vsum"></p>
+  <div class="matrix" id="matrix">
     <div class="axis ax-x"></div><div class="axis ax-y"></div>
-    <div class="axlbl" style="left:8%;top:48%;transform:translateY(-130%)">← Single product</div>
-    <div class="axlbl" style="right:5%;top:48%;transform:translateY(-130%);text-align:right">Full-stack money →</div>
-    <div class="axlbl" style="left:51%;top:4%">High personalization ↑</div>
-    <div class="axlbl" style="left:51%;bottom:7%">↓ Generic / editorial</div>
-    <!-- blobs: left%, top%, size, color, label, initials -->
-    <div class="blob" style="left:72%;top:30%"><div class="b-dot" style="--s:64px;background:linear-gradient(135deg,#00ae4d,#006842)">NW</div><div class="b-name">NerdWallet</div></div>
-    <div class="blob" style="left:60%;top:58%"><div class="b-dot" style="--s:54px;background:#1f6feb">CK</div><div class="b-name">Credit Karma</div></div>
-    <div class="blob" style="left:30%;top:40%"><div class="b-dot" style="--s:44px;background:#7b54c4">WH</div><div class="b-name">WalletHub</div></div>
-    <div class="blob" style="left:33%;top:70%"><div class="b-dot" style="--s:48px;background:#b5740f">BR</div><div class="b-name">Bankrate</div></div>
-    <div class="blob" style="left:80%;top:72%"><div class="b-dot" style="--s:42px;background:#444">MF</div><div class="b-name">Monarch / Fidelity</div></div>
+    <div class="axlbl" id="axL" style="left:8%;top:48%;transform:translateY(-130%)"></div>
+    <div class="axlbl" id="axR" style="right:5%;top:48%;transform:translateY(-130%);text-align:right"></div>
+    <div class="axlbl" id="axT" style="left:51%;top:4%"></div>
+    <div class="axlbl" id="axB" style="left:51%;bottom:7%"></div>
+    <div id="blobs"></div>
   </div>
-
-  <div class="secbar"><div><h2>Feature coverage</h2><p>Depth across the three verticals NerdWallet is investing in.</p></div></div>
-  <table class="ctable">
-    <thead><tr><th>Capability</th><th class="nw">NerdWallet</th><th>Credit Karma</th><th>WalletHub</th><th>Bankrate</th></tr></thead>
-    <tbody>
-      <tr><td>Personalized card matching</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Medium</td><td><span class="x">○</span> Editorial</td></tr>
-      <tr><td>Approval-odds / pre-qual</td><td class="nw"><span class="partial">◐</span> Partial</td><td><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Partial</td><td><span class="x">○</span> None</td></tr>
-      <tr><td>Lending marketplace (consolidation, refi)</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="partial">◐</span> Partial</td><td><span class="partial">◐</span> Medium</td><td><span class="chk">●</span> Strong</td></tr>
-      <tr><td>Investment / wealth guidance</td><td class="nw"><span class="x">○</span> Gap</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td><td><span class="partial">◐</span> Content</td></tr>
-      <tr><td>Cross-vertical sequencing (payoff→invest)</td><td class="nw"><span class="x">○</span> Gap</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td><td><span class="x">○</span> None</td></tr>
-      <tr><td>Bureau data integration</td><td class="nw"><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="chk">●</span> Strong</td><td><span class="x">○</span> None</td></tr>
-    </tbody>
-  </table>
-
-  <div class="secbar"><div><h2>Where NerdWallet can win</h2><p>The three white-space bets that fall out of the matrix above.</p></div></div>
-  <div class="opp">
-    <div class="card"><div class="h"><span class="num">1</span>Own the sequence</div><p>No competitor connects payoff → credit-build → invest into one ordered plan. This is the moat: trust from telling members what <i>not</i> to do.</p><span class="imp b-green">High impact · Med effort</span></div>
-    <div class="card"><div class="h"><span class="num">2</span>Enter wealth</div><p>Investment guidance is a gap for every editorial-first competitor. Bridge our credit audience into a managed/robo offering via partner APIs.</p><span class="imp b-amber">High impact · High effort</span></div>
-    <div class="card"><div class="h"><span class="num">3</span>Close the approval-odds gap</div><p>Credit Karma leads on pre-qual certainty. Deepen bureau integration to match — it's our biggest card-conversion leak.</p><span class="imp b-blue">Med impact · Med effort</span></div>
-  </div>
+  <div class="cdetail" id="cdetail"></div>
+  <div class="secbar"><div><h2>Feature coverage</h2><p id="ftSub"></p></div></div>
+  <div id="ctableWrap"></div>
+  <div class="secbar"><div><h2>Where NerdWallet can win</h2><p>The white-space bets that fall out of this vertical — click to expand.</p></div></div>
+  <div class="opp" id="oppWrap"></div>
 </div>
 
 <!-- ============ VIEW: METRICS ============ -->
 <div class="view" id="view-metrics">
-  <div class="secbar"><div><h2>Live in the numbers</h2><p>How the product is performing and where the experiments are pointed.</p></div><span class="pill">PERFORMANCE</span></div>
-  <div class="kpis">
-    <div class="card kpi"><div class="k-lbl">Activated members (30d)</div><div class="k-val">38.4%</div><div class="k-delta up">▲ 4.1 pts vs. last Q</div></div>
-    <div class="card kpi"><div class="k-lbl">Card application CVR</div><div class="k-val">11.2%</div><div class="k-delta up">▲ 0.9 pts</div></div>
-    <div class="card kpi"><div class="k-lbl">Lending lead → partner</div><div class="k-val">6.7%</div><div class="k-delta down">▼ 0.3 pts</div></div>
-    <div class="card kpi"><div class="k-lbl">Revenue / active user</div><div class="k-val">$4.82</div><div class="k-delta up">▲ 12%</div></div>
-  </div>
-
+  <div class="secbar"><div><h2>Live in the numbers</h2><p>Switch segments, then drag the funnel levers to simulate the impact on activated members and revenue.</p></div><span class="pill">PERFORMANCE</span></div>
+  <div class="seg" id="seg"></div>
+  <div class="kpis" id="kpis"></div>
   <div class="card funnel">
-    <h3>Activation funnel — biggest leak flagged</h3>
-    <div class="fstep"><div class="fl">Start onboarding</div><div class="fbar-track"><div class="fbar" style="width:100%">100%</div></div><div class="fp">100,000 users</div></div>
-    <div class="fstep"><div class="fl">Complete profile</div><div class="fbar-track"><div class="fbar" style="width:71%">71%</div></div><div class="fp">71,000</div></div>
-    <div class="fstep"><div class="fl">View plan</div><div class="fbar-track"><div class="fbar" style="width:64%">64%</div></div><div class="fp">64,000</div></div>
-    <div class="fstep"><div class="fl">Click a recommendation</div><div class="fbar-track"><div class="fbar" style="width:41%">41%</div></div><div class="fp"><b>↓ 23pt leak</b></div></div>
-    <div class="fstep"><div class="fl">Complete action (activate)</div><div class="fbar-track"><div class="fbar" style="width:38%">38%</div></div><div class="fp">38,000</div></div>
-  </div>
-
-  <div class="secbar"><div><h2>Experiments in flight</h2><p>A/B tests targeting the funnel leaks above.</p></div></div>
-  <div class="abrow">
-    <div class="card ab"><div class="a-top"><span class="a-name">Approval-odds badge on card module</span><span class="a-stat b-green">95% sig · shipping</span></div><p class="a-hyp">H: Leading with "you're likely approved" beats leading with the welcome bonus on card-click rate.</p><div class="a-res"><div><b>+8.3%</b>card clicks</div><div><b>+2.1%</b>approved apps</div><div><b>n=42k</b>sample</div></div></div>
-    <div class="card ab"><div class="a-top"><span class="a-name">$-savings shown up front (lending)</span><span class="a-stat b-amber">running · 80%</span></div><p class="a-hyp">H: Showing estimated monthly savings before "check rate" lifts qualified-lead rate.</p><div class="a-res"><div><b>+5.6%</b>lead rate</div><div><b>−1.2%</b>quality</div><div><b>n=18k</b>sample</div></div></div>
-    <div class="card ab"><div class="a-top"><span class="a-name">Sequencing nudge (payoff before invest)</span><span class="a-stat b-blue">design</span></div><p class="a-hyp">H: Explicitly gating investing behind debt payoff raises 30-day activation without hurting trust scores.</p><div class="a-res"><div><b>—</b>TBD</div><div><b>Q3</b>launch</div><div><b>—</b></div></div></div>
-    <div class="card ab"><div class="a-top"><span class="a-name">Low-friction "$50 to start" investing</span><span class="a-stat b-red">lost · learn</span></div><p class="a-hyp">H: Small-dollar framing beats 30-yr projection on account-funding.</p><div class="a-res"><div><b>−3.4%</b>funding</div><div><b>95% sig</b>result</div><div><b>n=29k</b>sample</div></div></div>
-  </div>
-
-  <div class="secbar"><div><h2>Roadmap</h2><p>Now / Next / Later across the three verticals.</p></div></div>
-  <div class="road">
-    <div class="card lane now"><div class="l-h">● Now · this quarter</div>
-      <div class="ritem"><div class="rt">Ship approval-odds badge <span class="vert v-credit">CREDIT</span></div><div class="rd">Roll winning A/B to 100%; deepen bureau pre-qual.</div></div>
-      <div class="ritem"><div class="rt">Cross-vertical sequencing engine <span class="vert v-wealth">WEALTH</span></div><div class="rd">Payoff-before-invest logic powering this prototype.</div></div>
-      <div class="ritem"><div class="rt">Fix recommendation-click leak <span class="vert v-lend">LENDING</span></div><div class="rd">23pt funnel drop — clarify offer value up front.</div></div>
-    </div>
-    <div class="card lane next"><div class="l-h">◗ Next · 1–2 quarters</div>
-      <div class="ritem"><div class="rt">Wealth partner integration <span class="vert v-wealth">WEALTH</span></div><div class="rd">Robo-advisor API for managed portfolios.</div></div>
-      <div class="ritem"><div class="rt">Real-time bureau refresh <span class="vert v-credit">CREDIT</span></div><div class="rd">Move from monthly to event-driven score pulls.</div></div>
-      <div class="ritem"><div class="rt">ML re-ranking of modules <span class="vert v-lend">LENDING</span></div><div class="rd">Personalize module order by predicted activation.</div></div>
-    </div>
-    <div class="card lane later"><div class="l-h">○ Later · exploring</div>
-      <div class="ritem"><div class="rt">Goal-based planning hub <span class="vert v-wealth">WEALTH</span></div><div class="rd">Multi-goal tracking beyond single next step.</div></div>
-      <div class="ritem"><div class="rt">Embedded checkout w/ partners <span class="vert v-credit">CREDIT</span></div><div class="rd">Reduce hand-off drop with in-app apply.</div></div>
-      <div class="ritem"><div class="rt">Proactive life-event triggers <span class="vert v-lend">LENDING</span></div><div class="rd">Detect rate-drop / income change → nudge refi.</div></div>
+    <h3>Activation funnel — drag levers to simulate <span id="simTag" style="font-weight:600;color:var(--muted);font-size:13px"></span></h3>
+    <div id="funnelBars"></div>
+    <div class="simwrap">
+      <div><div class="sc-h">What-if levers</div><div id="sliders"></div><button class="ghost simreset" id="simReset">↺ Reset to baseline</button></div>
+      <div><div class="sc-h">Projected impact</div><div class="simout-box" id="simout"></div></div>
     </div>
   </div>
+  <div class="secbar"><div><h2>Experiments in flight</h2><p>Click a test to expand. Winning tests push their measured lift straight into the simulator above.</p></div></div>
+  <div class="abrow" id="abrow"></div>
+  <div class="secbar"><div><h2>Roadmap</h2><p>Filter by vertical; click any item for detail.</p></div><div class="chips" id="roadChips"></div></div>
+  <div class="road" id="road"></div>
 </div>
 
 </main>
@@ -539,6 +541,236 @@ document.getElementById('restart').onclick=()=>{
   document.getElementById('step1').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 };
+</script>
+
+<script>
+/* ============================================================
+   MARKET INTEL — interactive, per-vertical
+   ============================================================ */
+const SC={strong:['●','Strong','chk'],med:['◐','Medium','partial'],weak:['○','Limited','x'],none:['○','None','x']};
+const MKT={
+  cards:{label:'Credit Cards',
+    axis:{l:'Editorial / generic',r:'Personalized matching',t:'Approval certainty',b:'Browse only'},
+    summary:'NerdWallet matches cards well but trails Credit Karma on approval-odds certainty — the single biggest lever on card conversion.',
+    players:[
+      {id:'NW',name:'NerdWallet',x:70,y:34,s:64,c:'linear-gradient(135deg,#00ae4d,#006842)',you:1,strength:'Trusted editorial plus a broad card marketplace and solid personalized matching.',weakness:'Approval-odds / pre-qual certainty lags the leader — more "browse" than "apply".',angle:'Deepen bureau pre-qual so members see approval odds before they apply.'},
+      {id:'CK',name:'Credit Karma',x:82,y:70,s:58,c:'#1f6feb',strength:'Owns approval-odds with free scores and tight bureau integration.',weakness:'Skews subprime; weaker on premium/rewards guidance and editorial trust.',angle:'Win the prime / rewards shopper with better content and transparent matching.'},
+      {id:'WH',name:'WalletHub',x:38,y:50,s:44,c:'#7b54c4',strength:'Free credit monitoring and a huge SEO footprint.',weakness:'Thin personalization and a cluttered UX.',angle:'Out-personalize on relevance and clarity.'},
+      {id:'BR',name:'Bankrate',x:28,y:26,s:46,c:'#b5740f',strength:'Authoritative rate tables and broad editorial reach.',weakness:'Editorial-first, with minimal personalization or approval signals.',angle:'Convert their research traffic into matched applications.'}
+    ],
+    features:[
+      {f:'Personalized card matching',sc:{NW:'strong',CK:'strong',WH:'med',BR:'weak'}},
+      {f:'Approval-odds / pre-qual',sc:{NW:'med',CK:'strong',WH:'med',BR:'none'}},
+      {f:'Rewards optimization guidance',sc:{NW:'strong',CK:'med',WH:'weak',BR:'med'}},
+      {f:'Bureau data integration',sc:{NW:'strong',CK:'strong',WH:'strong',BR:'none'}},
+      {f:'Editorial trust / reviews',sc:{NW:'strong',CK:'med',WH:'med',BR:'strong'}}
+    ],
+    opps:[
+      {n:1,t:'Close the approval-odds gap',b:'Credit Karma leads on pre-qual certainty — our biggest card-conversion leak. Show odds before members apply.',imp:'High',eff:'Med',more:'Estimated +2–3 pt lift on card application→approval. Needs deeper bureau API work and a pre-qual model; partner data agreements are already in place.'},
+      {n:2,t:'Win the prime rewards shopper',b:'CK skews subprime. Pair our editorial trust with transparent matching to own high-FICO rewards seekers.',imp:'High',eff:'Med',more:'Highest-RPU segment. Lever: a rewards-optimizer that ranks cards by *your* actual spend, not generic value.'},
+      {n:3,t:'Convert research traffic',b:'Capture high-intent comparison searches (Bankrate-style) and route them into matched applications.',imp:'Med',eff:'Low',more:'SEO + interactive comparison widgets that end in a personalized match CTA — low effort, leverages existing content.'}
+    ]},
+  lending:{label:'Personal Lending',
+    axis:{l:'Editorial / rate tables',r:'Marketplace + matching',t:'Soft-pull pre-qual',b:'No pre-qual'},
+    summary:'NerdWallet has a strong lending marketplace but offers sit siloed from the member\'s wider money plan — cross-vertical sequencing is white space nobody owns.',
+    players:[
+      {id:'NW',name:'NerdWallet',x:68,y:62,s:62,c:'linear-gradient(135deg,#00ae4d,#006842)',you:1,strength:'Broad lending marketplace (personal, refi, mortgage) with soft-pull pre-qual.',weakness:'Offers are disconnected from the member\'s broader money plan.',angle:'Sequence lending inside the full plan — payoff → build → invest.'},
+      {id:'LT',name:'LendingTree',x:55,y:46,s:50,c:'#159e6b',strength:'Huge lender-auction marketplace and reach.',weakness:'Heavy lead-gen feel and a spammy follow-up reputation.',angle:'Win on trust with a no-spam, soft-pull experience.'},
+      {id:'CK',name:'Credit Karma',x:76,y:72,s:50,c:'#1f6feb',strength:'Pre-approval offers tied to the member\'s credit profile.',weakness:'Narrow product set and a subprime skew.',angle:'Broader prime products with clearer total-cost framing.'},
+      {id:'BR',name:'Bankrate',x:32,y:54,s:48,c:'#b5740f',strength:'Best-in-class rate tables and lender reach.',weakness:'Editorial; little personalization or guided journeys.',angle:'Turn rate-shopping into a guided, matched flow.'}
+    ],
+    features:[
+      {f:'Personal loan / consolidation',sc:{NW:'strong',LT:'strong',CK:'med',BR:'med'}},
+      {f:'Soft-pull pre-qualification',sc:{NW:'strong',LT:'med',CK:'strong',BR:'weak'}},
+      {f:'Student loan refinance',sc:{NW:'strong',LT:'med',CK:'weak',BR:'med'}},
+      {f:'Guided "what should I do" journey',sc:{NW:'med',LT:'none',CK:'weak',BR:'none'}},
+      {f:'No-spam experience',sc:{NW:'strong',LT:'weak',CK:'med',BR:'strong'}}
+    ],
+    opps:[
+      {n:1,t:'Own cross-vertical sequencing',b:'No one connects payoff → credit-build → invest into one ordered plan. The moat: trust from telling members what NOT to do.',imp:'High',eff:'Med',more:'Powers My Plan in this prototype. Differentiator competitors can\'t easily copy because they lack the cross-product data and audience.'},
+      {n:2,t:'No-spam soft-pull marketplace',b:'LendingTree\'s lead-gen reputation is a liability. Win trust with a clean, soft-pull-only experience.',imp:'Med',eff:'Low',more:'Position against aggressive lead resale; cap partner contact and surface it transparently.'},
+      {n:3,t:'Proactive refi triggers',b:'Detect rate drops or income changes and nudge a refinance at the right moment.',imp:'Med',eff:'High',more:'Requires event-driven bureau refresh (see roadmap) and a notification system; highest engagement upside.'}
+    ]},
+  wealth:{label:'Wealth & Investing',
+    axis:{l:'Content only',r:'Managed / actionable',t:'Personalized advice',b:'Generic'},
+    summary:'Investment guidance is a gap for every editorial-first competitor and NerdWallet has no owned offering yet — the clearest white-space bet on the board.',
+    players:[
+      {id:'NW',name:'NerdWallet',x:30,y:42,s:52,c:'linear-gradient(135deg,#00ae4d,#006842)',you:1,strength:'Trusted, high-intent audience plus reviews of brokerages and robo-advisors.',weakness:'No owned guidance or managed offering — pure content today.',angle:'Bridge our credit audience into guided/managed investing via partner APIs.'},
+      {id:'FD',name:'Fidelity / Schwab',x:80,y:78,s:60,c:'#4a8c5a',strength:'Full-stack brokerage with advice and low fees.',weakness:'Not where money-curious beginners start their journey.',angle:'Be the trusted on-ramp that routes beginners to the right product.'},
+      {id:'BT',name:'Betterment',x:72,y:64,s:48,c:'#1f6feb',strength:'Automated, goal-based robo investing.',weakness:'Limited top-of-funnel discovery audience.',angle:'Partner: we supply intent, they supply the managed product.'},
+      {id:'MN',name:'Budget apps (Monarch)',x:45,y:30,s:42,c:'#555',strength:'Daily-engagement money management.',weakness:'Weak on investment-product matching.',angle:'Out-guide specifically on the "should I invest yet" decision.'}
+    ],
+    features:[
+      {f:'Investment product matching',sc:{NW:'med',FD:'strong',BT:'strong',MN:'weak'}},
+      {f:'Personalized advice / guidance',sc:{NW:'weak',FD:'strong',BT:'med',MN:'weak'}},
+      {f:'Managed portfolio / robo',sc:{NW:'none',FD:'strong',BT:'strong',MN:'none'}},
+      {f:'Beginner education',sc:{NW:'strong',FD:'med',BT:'med',MN:'med'}},
+      {f:'Top-of-funnel discovery audience',sc:{NW:'strong',FD:'med',BT:'weak',MN:'med'}}
+    ],
+    opps:[
+      {n:1,t:'Launch guided investing',b:'Bridge our audience into a managed/robo offering via partner APIs — capture the decision we currently hand away.',imp:'High',eff:'High',more:'Biggest TAM expansion. Build-vs-partner: partner first (Betterment-style API) to validate, then evaluate owning the experience.'},
+      {n:2,t:'Sequence debt-free → first invest',b:'When a member clears high-interest debt, we already know they\'re ready. Trigger the first investing nudge automatically.',imp:'High',eff:'Med',more:'Ties directly to the sequencing engine; a warm, high-intent hand-off rather than a cold pitch.'},
+      {n:3,t:'Beginner robo on-ramp',b:'A $10-to-start, education-led flow aimed at first-time investors who trust our content.',imp:'Med',eff:'Med',more:'Leverages our beginner-education strength; low-friction funding flow (note: the "$50 to start" framing lost an A/B — see experiments).'}
+    ]}
+};
+let curVert='cards';
+
+function impCls(x){return x==='High'?'b-green':x==='Med'?'b-amber':'b-blue';}
+
+function renderMarket(){
+  const v=MKT[curVert];
+  document.getElementById('vtabs').innerHTML=Object.keys(MKT).map(k=>`<button class="vtab ${k===curVert?'on':''}" data-v="${k}">${MKT[k].label}</button>`).join('');
+  document.querySelectorAll('#vtabs .vtab').forEach(b=>b.onclick=()=>{curVert=b.dataset.v;document.getElementById('cdetail').classList.remove('show');renderMarket();});
+  document.getElementById('vsum').textContent=v.summary;
+  document.getElementById('axL').textContent='← '+v.axis.l;
+  document.getElementById('axR').textContent=v.axis.r+' →';
+  document.getElementById('axT').textContent=v.axis.t+' ↑';
+  document.getElementById('axB').textContent='↓ '+v.axis.b;
+  document.getElementById('blobs').innerHTML=v.players.map((p,i)=>`<div class="blob" data-i="${i}" style="left:${p.x}%;top:${100-p.y}%"><div class="b-dot" style="--s:${p.s}px;background:${p.c}">${p.id}</div><div class="b-name">${p.name}</div></div>`).join('');
+  document.querySelectorAll('#blobs .blob').forEach(b=>b.onclick=()=>showComp(+b.dataset.i,b));
+  const P=v.players;
+  const head=`<tr><th>Capability</th>${P.map(p=>`<th class="${p.you?'nw':''}">${p.name}</th>`).join('')}</tr>`;
+  const rows=v.features.map(f=>`<tr><td>${f.f}</td>${P.map(p=>{const s=SC[f.sc[p.id]];return `<td class="${p.you?'nw':''}"><span class="${s[2]}">${s[0]}</span> ${s[1]}</td>`;}).join('')}</tr>`).join('');
+  document.getElementById('ctableWrap').innerHTML=`<table class="ctable"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+  document.getElementById('ftSub').textContent=`Depth across ${v.label.toLowerCase()} — the NerdWallet column is highlighted.`;
+  document.getElementById('oppWrap').innerHTML=v.opps.map(o=>`<div class="card opp-c"><div class="h"><span class="num">${o.n}</span>${o.t}</div><p>${o.b}</p><span class="imp ${impCls(o.imp)}">${o.imp} impact · ${o.eff} effort</span><div class="o-more" style="display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px">${o.more}</div></div>`).join('');
+  document.querySelectorAll('.opp-c').forEach(c=>c.onclick=()=>{const m=c.querySelector('.o-more');m.style.display=m.style.display==='none'?'block':'none';});
+}
+function showComp(i,el){
+  document.querySelectorAll('#blobs .blob').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  const p=MKT[curVert].players[i];
+  document.getElementById('cdetail').innerHTML=`<div class="card"><div style="display:flex;align-items:center;gap:11px"><div style="width:34px;height:34px;background:${p.c};border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;flex:none">${p.id}</div><h3 style="margin:0;font-size:19px">${p.name}${p.you?' · that\'s us':''}</h3></div><div class="cd-grid"><div class="cd"><div class="cd-l s">Strength</div>${p.strength}</div><div class="cd"><div class="cd-l w">Weakness</div>${p.weakness}</div><div class="cd"><div class="cd-l a">${p.you?'Our focus':'NerdWallet\'s angle'}</div>${p.angle}</div></div></div>`;
+  document.getElementById('cdetail').classList.add('show');
+}
+
+/* ============================================================
+   METRICS & ROADMAP — segments, funnel simulator, A/B, roadmap
+   ============================================================ */
+const SEG={
+  all:{label:'All members',start:100000,conv:{profile:0.71,plan:0.901,click:0.641,activate:0.927},rpu:4.82,rpud:'+12%',cardCVR:11.2,cardCVRd:'+0.9',lendLead:6.7,lendLeadd:'−0.3'},
+  new:{label:'New (first 30d)',start:62000,conv:{profile:0.66,plan:0.88,click:0.58,activate:0.90},rpu:3.10,rpud:'+8%',cardCVR:9.4,cardCVRd:'+1.3',lendLead:5.1,lendLeadd:'+0.4'},
+  ret:{label:'Returning',start:38000,conv:{profile:0.83,plan:0.93,click:0.72,activate:0.95},rpu:7.65,rpud:'+15%',cardCVR:14.1,cardCVRd:'+0.5',lendLead:8.9,lendLeadd:'−0.1'}
+};
+const FLABEL={start:'Start onboarding',profile:'Complete profile',plan:'View plan',click:'Click a recommendation',activate:'Complete action (activate)'};
+let curSeg='all';
+let simConv={};
+
+const ABT=[
+  {name:'Approval-odds badge on card module',stat:['95% sig · winner','b-green'],hyp:'Leading with "you\'re likely approved" beats leading with the welcome bonus on card-click rate.',res:[['+8.3%','card clicks'],['+2.1%','approved apps'],['n=42k','sample']],more:'Clear winner across every segment, strongest for prime users. Recommendation: ship to 100% and feed the lift into the click step.',lever:{step:'click',mult:1.083,label:'Apply +8.3% to the "click" step'},dec:'ship'},
+  {name:'$-savings shown up front (lending)',stat:['running · 80% power','b-amber'],hyp:'Showing estimated monthly savings before "check rate" lifts the qualified-lead rate.',res:[['+5.6%','lead rate'],['−1.2%','lead quality'],['n=18k','sample']],more:'Lead volume up but a slight quality dip — monitor partner acceptance before shipping.',lever:{step:'click',mult:1.056,label:'Apply +5.6% to the "click" step'},dec:'iterate'},
+  {name:'Sequencing nudge (payoff before invest)',stat:['design','b-blue'],hyp:'Gating investing behind debt payoff raises 30-day activation without hurting trust.',res:[['—','TBD'],['Q3','launch'],['—','']],more:'Not yet launched. The hypothesis ties directly to the cross-vertical sequencing roadmap bet — no measured lift to apply yet.',lever:null,dec:null},
+  {name:'Low-friction "$50 to start" investing',stat:['lost · learning','b-red'],hyp:'Small-dollar framing beats a 30-yr projection on account funding.',res:[['−3.4%','funding'],['95% sig','result'],['n=29k','sample']],more:'Lost: the projection framing actually motivated more funding. Kept for the learning — do NOT ship small-dollar framing here.',lever:null,dec:'kill'}
+];
+const ROAD={
+  now:[
+    {t:'Ship approval-odds badge',v:'credit',d:'Roll the winning A/B to 100%; deepen bureau pre-qual.',more:'Owner: Growth pod. Ties to the #1 card-conversion lever and the winning experiment below.'},
+    {t:'Cross-vertical sequencing engine',v:'wealth',d:'Payoff-before-invest logic powering My Plan.',more:'The moat bet — no competitor sequences across verticals. Live in this prototype today.'},
+    {t:'Fix recommendation-click leak',v:'lending',d:'The biggest funnel drop — clarify offer value up front.',more:'Pair with the $-savings experiment; this is the single largest funnel leak in the simulator above.'}
+  ],
+  next:[
+    {t:'Wealth partner integration',v:'wealth',d:'Robo-advisor API for managed portfolios.',more:'Build-vs-partner: partner first to validate demand, then evaluate owning the experience.'},
+    {t:'Real-time bureau refresh',v:'credit',d:'Move from monthly to event-driven score pulls.',more:'Unlocks proactive refi triggers and tighter approval-odds accuracy.'},
+    {t:'ML re-ranking of modules',v:'lending',d:'Order modules by predicted activation per member.',more:'Personalizes the My Plan layout itself; expected lift on the click step.'}
+  ],
+  later:[
+    {t:'Goal-based planning hub',v:'wealth',d:'Multi-goal tracking beyond a single next step.',more:'Evolves the product from one recommendation into an ongoing plan members return to.'},
+    {t:'Embedded checkout w/ partners',v:'credit',d:'In-app apply to reduce hand-off drop.',more:'Removes the partner redirect that loses conversions at the final step.'},
+    {t:'Proactive life-event triggers',v:'lending',d:'Detect rate drops / income changes → nudge.',more:'Notification-driven re-engagement; depends on real-time bureau refresh shipping first.'}
+  ]
+};
+const VMAP={credit:'credit',lending:'lend',wealth:'wealth'};
+let roadFilter='all';
+
+function computeFunnel(conv){
+  const seg=SEG[curSeg];let n=seg.start;const out=[{key:'start',n}];
+  ['profile','plan','click','activate'].forEach(k=>{const c=(k==='plan')?seg.conv.plan:conv[k];n=Math.round(n*c);out.push({key:k,n});});
+  return out;
+}
+function buildSliders(){
+  const seg=SEG[curSeg];
+  simConv={profile:seg.conv.profile,click:seg.conv.click,activate:seg.conv.activate};
+  const defs=[['profile','Profile completion'],['click','Recommendation click'],['activate','Action completion']];
+  document.getElementById('sliders').innerHTML=defs.map(d=>{const v=Math.round(simConv[d[0]]*100);return `<div class="sld"><div class="sl-top"><span>${d[1]}</span><b id="lab-${d[0]}">${v}%</b></div><input type="range" min="30" max="99" value="${v}" data-step="${d[0]}"></div>`;}).join('');
+  document.querySelectorAll('#sliders input').forEach(inp=>inp.oninput=()=>{simConv[inp.dataset.step]=+inp.value/100;document.getElementById('lab-'+inp.dataset.step).textContent=inp.value+'%';simulate();renderKPIs();});
+}
+function renderFunnelBars(counts,start){
+  let maxDrop=-1,maxI=-1;
+  for(let i=1;i<counts.length;i++){const d=counts[i-1].n-counts[i].n;if(d>maxDrop){maxDrop=d;maxI=i;}}
+  document.getElementById('funnelBars').innerHTML=counts.map((c,i)=>{const pct=Math.round(c.n/start*100);const fp=(i===maxI)?`<b>↓ biggest leak</b>`:c.n.toLocaleString();return `<div class="fstep"><div class="fl">${FLABEL[c.key]}</div><div class="fbar-track"><div class="fbar" style="width:${pct}%">${pct}%</div></div><div class="fp">${fp}</div></div>`;}).join('');
+}
+function simulate(){
+  const seg=SEG[curSeg];
+  const cur=computeFunnel(simConv);
+  const base=computeFunnel(seg.conv);
+  renderFunnelBars(cur,seg.start);
+  const actCur=cur[cur.length-1].n,actBase=base[base.length-1].n;
+  const dM=actCur-actBase,rateCur=actCur/seg.start*100;
+  const revCur=actCur*seg.rpu,dRev=(actCur-actBase)*seg.rpu;
+  const cls=dM>0?'up':dM<0?'down':'flat';
+  document.getElementById('simout').innerHTML=`
+    <div class="so-big">${actCur.toLocaleString()}</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:13px">activated members / mo · ${rateCur.toFixed(1)}% of entrants</div>
+    <div class="so-row"><span>vs. baseline</span><span class="so-delta ${cls}">${dM>=0?'+':''}${dM.toLocaleString()} members</span></div>
+    <div class="so-row"><span>Monthly revenue</span><span><b>$${Math.round(revCur).toLocaleString()}</b></span></div>
+    <div class="so-row"><span>Revenue delta</span><span class="so-delta ${cls}">${dRev>=0?'+':'−'}$${Math.abs(Math.round(dRev)).toLocaleString()}/mo</span></div>
+    <div class="so-row"><span>Annualized</span><span class="so-delta ${cls}">${dRev>=0?'+':'−'}$${Math.abs(Math.round(dRev*12)).toLocaleString()}/yr</span></div>`;
+  document.getElementById('simTag').textContent=`· ${seg.label} · ${seg.start.toLocaleString()} entering`;
+}
+function renderKPIs(){
+  const seg=SEG[curSeg];
+  const cur=computeFunnel(simConv),base=computeFunnel(seg.conv);
+  const rateCur=cur[cur.length-1].n/seg.start*100,rateBase=base[base.length-1].n/seg.start*100;
+  const d=rateCur-rateBase,dc=d>=0?'up':'down';
+  document.getElementById('kpis').innerHTML=`
+    <div class="card kpi"><div class="k-lbl">Activated members (30d)</div><div class="k-val">${rateCur.toFixed(1)}%</div><div class="k-delta ${dc}">${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)} pts vs baseline</div></div>
+    <div class="card kpi"><div class="k-lbl">Card application CVR</div><div class="k-val">${seg.cardCVR}%</div><div class="k-delta ${seg.cardCVRd[0]==='+'?'up':'down'}">${seg.cardCVRd[0]==='+'?'▲':'▼'} ${seg.cardCVRd.slice(1)} pts</div></div>
+    <div class="card kpi"><div class="k-lbl">Lending lead → partner</div><div class="k-val">${seg.lendLead}%</div><div class="k-delta ${seg.lendLeadd[0]==='+'?'up':'down'}">${seg.lendLeadd[0]==='+'?'▲':'▼'} ${seg.lendLeadd.slice(1)} pts</div></div>
+    <div class="card kpi"><div class="k-lbl">Revenue / active user</div><div class="k-val">$${seg.rpu.toFixed(2)}</div><div class="k-delta up">▲ ${seg.rpud}</div></div>`;
+}
+function renderAB(){
+  document.getElementById('abrow').innerHTML=ABT.map((t,i)=>`<div class="card ab" data-i="${i}">
+    <div class="a-top"><span class="a-name">${t.name}</span><span class="a-stat ${t.stat[1]}">${t.stat[0]}</span></div>
+    <p class="a-hyp">${t.hyp}</p>
+    <div class="a-res">${t.res.map(r=>`<div><b>${r[0]}</b>${r[1]}</div>`).join('')}</div>
+    <div class="a-more">${t.more}${t.lever?`<br><button class="applylever" data-i="${i}">▲ ${t.lever.label}</button>`:''}
+      <div class="a-dec">${['ship','iterate','kill'].map(dd=>`<button data-i="${i}" data-dec="${dd}" class="${t.dec===dd?'on':''}">${dd[0].toUpperCase()+dd.slice(1)}</button>`).join('')}</div>
+    </div></div>`).join('');
+  document.querySelectorAll('#abrow .ab').forEach(c=>c.onclick=e=>{if(e.target.closest('.applylever')||e.target.closest('.a-dec'))return;c.classList.toggle('open');});
+  document.querySelectorAll('.applylever').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();const t=ABT[+b.dataset.i],seg=SEG[curSeg];
+    const nv=Math.min(0.99,seg.conv[t.lever.step]*t.lever.mult);
+    simConv[t.lever.step]=nv;
+    const inp=document.querySelector(`#sliders input[data-step="${t.lever.step}"]`);
+    if(inp){inp.value=Math.round(nv*100);document.getElementById('lab-'+t.lever.step).textContent=Math.round(nv*100)+'%';}
+    simulate();renderKPIs();
+    document.querySelector('#view-metrics .funnel').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+  document.querySelectorAll('.a-dec button').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();const i=+b.dataset.i;ABT[i].dec=b.dataset.dec;
+    document.querySelectorAll(`.a-dec button[data-i="${i}"]`).forEach(x=>x.classList.toggle('on',x.dataset.dec===b.dataset.dec));
+  });
+}
+function renderRoad(){
+  const chips=[['all','All'],['credit','Credit'],['lending','Lending'],['wealth','Wealth']];
+  document.getElementById('roadChips').innerHTML=chips.map(c=>`<button class="chip ${c[0]===roadFilter?'on':''}" data-c="${c[0]}">${c[1]}</button>`).join('');
+  document.querySelectorAll('#roadChips .chip').forEach(b=>b.onclick=()=>{roadFilter=b.dataset.c;renderRoad();});
+  const lanes=[['now','● Now · this quarter'],['next','◗ Next · 1–2 quarters'],['later','○ Later · exploring']];
+  document.getElementById('road').innerHTML=lanes.map(L=>{
+    const items=ROAD[L[0]].map(it=>{const hide=(roadFilter!=='all'&&it.v!==roadFilter);return `<div class="ritem ${hide?'hide':''}"><div class="rt">${it.t} <span class="vert v-${VMAP[it.v]}">${it.v.toUpperCase()}</span></div><div class="rd">${it.d}</div><div class="r-more">${it.more}</div></div>`;}).join('');
+    return `<div class="card lane ${L[0]}"><div class="l-h">${L[1]}</div>${items}</div>`;
+  }).join('');
+  document.querySelectorAll('#road .ritem').forEach(r=>r.onclick=()=>r.classList.toggle('open'));
+}
+function renderMetrics(){
+  document.getElementById('seg').innerHTML=Object.keys(SEG).map(k=>`<button class="${k===curSeg?'on':''}" data-s="${k}">${SEG[k].label}</button>`).join('');
+  document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{curSeg=b.dataset.s;buildSliders();simulate();renderKPIs();document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.s===curSeg));});
+  buildSliders();simulate();renderKPIs();renderAB();renderRoad();
+}
+document.getElementById('simReset').onclick=()=>{buildSliders();simulate();renderKPIs();};
+
+renderMarket();
+renderMetrics();
 </script>
 </body>
 </html>
