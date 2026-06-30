@@ -161,6 +161,25 @@
   .ritem .vert{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle}
   .v-credit{background:var(--mint);color:var(--green-d)} .v-lend{background:var(--blue-bg);color:var(--blue)} .v-wealth{background:var(--amber-bg);color:var(--amber)}
 
+  .viewbtn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--green);color:var(--green-d);font-weight:700;font-size:13.5px;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:var(--font);transition:.15s}
+  .viewbtn:hover{background:var(--mint)}
+  .overlay{position:fixed;inset:0;background:rgba(16,30,24,.55);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:42px 18px;overflow:auto}
+  .overlay.show{display:flex;animation:fade .2s ease}
+  .sheet{background:#fff;border-radius:18px;max-width:540px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.35);overflow:hidden;animation:fade .25s ease}
+  .sheet-h{padding:24px 26px;background:linear-gradient(120deg,var(--green-d),var(--green-dd));color:#fff;position:relative}
+  .sheet-h .iss{font-size:11.5px;font-weight:700;opacity:.82;letter-spacing:.5px;text-transform:uppercase}
+  .sheet-h h3{margin:5px 0 0;font-size:23px;color:#fff}
+  .sheet-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:19px;cursor:pointer;line-height:1}
+  .sheet-close:hover{background:rgba(255,255,255,.3)}
+  .sheet-b{padding:22px 26px}
+  .sheet-b .lead{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+  .dbul{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .dbul:last-child{border-bottom:none}
+  .dbul .dot{color:var(--green);font-weight:800;flex:none}
+  .sheet-f{padding:16px 26px 22px;display:flex;flex-direction:column;gap:11px}
+  .applybtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:15.5px;padding:14px;border-radius:12px;transition:.15s}
+  .applybtn:hover{background:var(--green-d)}
+  .disc{font-size:11px;color:var(--faint);text-align:center;line-height:1.55}
   footer{border-top:1px solid var(--line);background:#fff;padding:22px 0;text-align:center;color:var(--faint);font-size:12px;margin-top:30px}
   @media(max-width:860px){.kpis,.opp,.road,.abrow{grid-template-columns:1fr 1fr}.pm-grid{grid-template-columns:1fr}}
   @media(max-width:680px){.hero h1{font-size:32px}.kpis,.opp,.road,.abrow{grid-template-columns:1fr}nav.tabs button{padding:8px 10px}.fstep .fl{width:120px}}
@@ -347,7 +366,15 @@
 
 </main>
 
-<footer class="wrap" style="max-width:none">Prototype · NerdWallet Staff PM — Personalized Money Next Steps. Brand colors #00AE4D / #006842 / #8CCB32. Sample data for demonstration only.</footer>
+<div class="overlay" id="overlay"><div class="sheet" role="dialog" aria-modal="true">
+  <div class="sheet-h"><button class="sheet-close" id="sheetClose" aria-label="Close">×</button>
+    <div class="iss" id="dIss"></div><h3 id="dName"></h3></div>
+  <div class="sheet-b"><p class="lead" id="dLead"></p><div id="dBullets"></div></div>
+  <div class="sheet-f"><a class="applybtn" id="dApply" href="#" target="_blank" rel="noopener noreferrer"></a>
+    <div class="disc">Rates &amp; offers current as of June 2026 and may change — confirm details on the issuer's site. Terms apply. Links open the official issuer pages.</div></div>
+</div></div>
+
+<footer class="wrap" style="max-width:none">Prototype · NerdWallet Staff PM — Personalized Money Next Steps. Products are real; rates &amp; offers current as of June 2026 — verify on issuer sites. Brand colors #00AE4D / #006842 / #8CCB32.</footer>
 
 <script>
 const answers={credit:null,goal:null,cash:null,debt:null,horizon:null};
@@ -384,7 +411,7 @@ document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
 });
 document.getElementById('pmToggle').onclick=()=>document.body.classList.toggle('pm-on');
 
-/* engine */
+/* engine — real products, current as of June 2026 */
 function buildPlan(a){
   let s=540;
   s+={excellent:130,good:95,fair:55,building:22}[a.credit];
@@ -400,32 +427,59 @@ function buildPlan(a){
   const debtFirst=a.debt==='card';
 
   let card;
-  if(a.credit==='building') card={name:'NerdWallet Secured Builder Card',why:'Reports to all 3 bureaus to build history fast, refundable deposit.',badge:['Likely approved','b-green'],stats:[['Approval odds','High'],['Annual fee','$0'],['Reports to','3 bureaus']],match:'You\'re building credit — we lead with approval certainty over rewards.'};
-  else if(a.debt==='card') card={name:'NerdWallet 0% APR Transfer Card',why:'21 months at 0% intro APR — stop the interest bleed while you pay down balances.',badge:['Best for payoff','b-amber'],stats:[['Intro APR','0% / 21mo'],['Est. interest saved','~$1,180'],['Transfer fee','3%']],match:'You carry card debt, so a balance-transfer card outranks any rewards card.'};
-  else if(a.goal==='rewards'||a.credit==='excellent') card={name:'NerdWallet Cash Rewards Elite',why:'5% rotating categories, 2% everywhere — fits a maximizer with strong credit.',badge:['Pre-qualified','b-green'],stats:[['Approval odds','Very high'],['Welcome bonus','$250'],['Annual fee','$0']],match:'Excellent credit + rewards goal → highest-earn card you\'ll likely get.'};
-  else card={name:'NerdWallet Everyday 2% Card',why:'Flat 2% cash back, no annual fee, nothing to track.',badge:['Good match','b-green'],stats:[['Approval odds','High'],['Annual fee','$0'],['Cash back','2% flat']],match:'Good credit + simplicity → a reliable flat-rate earner.'};
+  if(a.credit==='building') card={name:'Discover it® Secured',issuer:'Discover',why:'Earns rewards while you build — and Discover matches all the cash back you earn your first year.',badge:['Likely approved','b-green'],stats:[['Min deposit','$200'],['Rewards','2% gas/dining'],['Reports to','3 bureaus']],match:'You\'re building credit — we lead with approval certainty, and this one actually earns rewards.',
+    detail:['2% cash back at gas stations & restaurants (up to $1,000 combined spend/quarter), 1% on everything else','First-year Cashback Match: Discover automatically doubles all the cash back you earned','Refundable $200 minimum security deposit sets your credit line','Reports to all three bureaus; automatic reviews start at month 7 to upgrade to an unsecured card','No annual fee'],
+    link:'https://www.discover.com/credit-cards/secured/',linkLabel:'Apply on Discover ↗'};
+  else if(a.debt==='card') card={name:'Wells Fargo Reflect® Card',issuer:'Wells Fargo',why:'One of the longest 0% intro APR windows — 21 months to pay your balance down interest-free.',badge:['Best for payoff','b-amber'],stats:[['Intro APR','0% · 21 mo'],['Transfer fee','5% ($5 min)'],['Annual fee','$0']],match:'You carry card debt, so a long balance-transfer runway outranks any rewards card.',
+    detail:['0% intro APR for 21 months on purchases and on qualifying balance transfers (made within 120 days of opening)','After the intro period a variable APR applies, based on your creditworthiness','Balance transfer fee: 5% (minimum $5)','No annual fee','Best for larger balances that need the most time to pay off'],
+    link:'https://www.wellsfargo.com/credit-cards/reflect/',linkLabel:'Apply on Wells Fargo ↗'};
+  else if(a.goal==='rewards'||a.credit==='excellent') card={name:'Chase Sapphire Preferred®',issuer:'Chase',why:'A 100,000-point welcome bonus and strong travel/dining earn for someone with excellent credit.',badge:['Pre-qualified','b-green'],stats:[['Welcome bonus','100k pts'],['Top earn','3x dining'],['Annual fee','$95']],match:'Excellent credit + a rewards goal → the highest-value card you\'re likely to be approved for.',
+    detail:['Welcome bonus: 100,000 bonus points after $5,000 in purchases in the first 3 months','Earn 3x points on dining, 2x on travel, 1x on everything else','Points are worth 25% more when redeemed for travel through Chase Travel℠','$95 annual fee','Strong travel protections and 1:1 point transfer partners'],
+    link:'https://creditcards.chase.com/rewards-credit-cards/chase-sapphire-preferred',linkLabel:'Apply on Chase ↗'};
+  else card={name:'Wells Fargo Active Cash® Card',issuer:'Wells Fargo',why:'Unlimited flat 2% cash rewards plus a $200 welcome bonus — simple, no categories to track.',badge:['Good match','b-green'],stats:[['Cash rewards','2% flat'],['Welcome bonus','$200'],['Annual fee','$0']],match:'Good credit + a preference for simplicity → a reliable flat-rate earner with a low-spend bonus.',
+    detail:['Unlimited 2% cash rewards on purchases','$200 cash rewards bonus after spending $500 in the first 3 months','0% intro APR for 12 months on purchases and qualifying balance transfers','No annual fee','Cell phone protection when you pay your bill with the card'],
+    link:'https://www.wellsfargo.com/credit-cards/active-cash/',linkLabel:'Apply on Wells Fargo ↗'};
 
   let loan;
-  if(a.debt==='card') loan={name:'Debt consolidation loan — 9.4% APR',why:'Roll high-APR card balances into one fixed payment and cut total interest.',badge:['Top opportunity','b-amber'],stats:[['Est. monthly savings','$140'],['Payoff','~31 months'],['APR','9.4% fixed']],match:'Highest-impact move: consolidating 22% card APR into single-digit fixed debt.'};
-  else if(a.debt==='student') loan={name:'Student loan refinance — 6.1% APR',why:'Refinance to a lower rate now that your credit has improved.',badge:['Worth checking','b-blue'],stats:[['Potential savings','$60/mo'],['Soft check','No impact'],['APR','6.1%']],match:'You hold student/other loans and have the credit to refinance lower.'};
-  else if(a.goal==='build'||a.credit==='building') loan={name:'Credit-builder loan',why:'A small installment loan designed purely to add positive payment history.',badge:['Builds credit','b-green'],stats:[['Loan size','$500–1k'],['Reports to','3 bureaus'],['Term','12 mo']],match:'No costly debt to refinance — so we use lending as a credit tool instead.'};
-  else loan={name:'You don\'t need a loan right now',why:'No high-interest debt to consolidate — we won\'t push a product you don\'t need.',badge:['No action needed','b-green'],stats:[['Recommendation','Skip'],['Revisit','Big expense'],['Trust','+1']],match:'Consumer-first: when lending doesn\'t help you, we say so.'};
+  if(a.debt==='card') loan={name:'SoFi Personal Loan — consolidation',issuer:'SoFi',why:'Roll high-APR card balances into one fixed monthly payment, with no fees.',badge:['Top opportunity','b-amber'],stats:[['Rate','Fixed APR*'],['Fees','$0'],['Funding','As soon as same day']],match:'Consolidating ~22% card APR into a single-digit fixed loan is your highest-impact move.',
+    detail:['Fixed-rate personal loan designed to consolidate credit-card debt','No origination fees, no prepayment penalties, no late fees','Check your rate with a soft pull — no impact to your credit score','Autopay rate discount available','*Your APR depends on creditworthiness; confirm the current rate on SoFi'],
+    link:'https://www.sofi.com/personal-loans/',linkLabel:'Check your rate on SoFi ↗'};
+  else if(a.debt==='student') loan={name:'SoFi Student Loan Refinance',issuer:'SoFi',why:'Refinance to a lower rate now that your credit has improved.',badge:['Worth checking','b-blue'],stats:[['Soft check','No impact'],['Fees','$0'],['Terms','5–20 yr']],match:'You hold student/other loans and have the credit profile to refinance into a better rate.',
+    detail:['Refinance federal and/or private student loans into one new loan','Fixed and variable rate options; no origination or prepayment fees','Check your rate with a soft credit pull','Important: refinancing federal loans forfeits federal protections (income-driven repayment, forgiveness)'],
+    link:'https://www.sofi.com/refinance-student-loan/',linkLabel:'Check your rate on SoFi ↗'};
+  else if(a.goal==='build'||a.credit==='building') loan={name:'Self Credit Builder Account',issuer:'Self',why:'A small installment loan designed purely to add positive payment history.',badge:['Builds credit','b-green'],stats:[['Reports to','3 bureaus'],['Plans from','~$25/mo'],['No','hard pull']],match:'No costly debt to refinance — so we use lending as a credit-building tool instead.',
+    detail:['You make small monthly payments into a locked savings account','On-time payments are reported to all three credit bureaus','At the end of the term you receive the savings back (minus interest/fees)','No hard credit check to get started'],
+    link:'https://www.self.inc/',linkLabel:'Open an account on Self ↗'};
+  else loan={name:'You don\'t need a loan right now',issuer:'Consumer-first recommendation',why:'No high-interest debt to consolidate — we won\'t push a product you don\'t need.',badge:['No action needed','b-green'],stats:[['Recommendation','Skip'],['Revisit','Big expense'],['Trust','+1']],match:'When lending doesn\'t help you, we say so. That\'s the trust play that earns the next decision.',
+    detail:['You reported no high-interest debt, so there\'s nothing to consolidate or refinance','Pushing a loan here would cost you money and cost us trust','Revisit lending if a large planned expense (home, car, medical) comes up','Meanwhile, your best moves are the card and investing recommendations'],
+    link:'',linkLabel:''};
 
   let invest;
-  if(a.debt==='card') invest={name:'Hold investing — clear card debt first',why:'A 22% APR balance beats any expected market return. Pay it down, then invest.',badge:['Sequenced','b-amber'],stats:[['Guaranteed "return"','22%'],['Then','Auto-invest'],['Saves','~$1,180']],match:'We sequence: paying 22% debt is the best "investment" available today.'};
-  else if(a.cash==='lots'&&a.horizon==='long') invest={name:'Open a Roth IRA + auto-invest $500/mo',why:'Tax-free growth and strong cash flow make this your highest-leverage long-term move.',badge:['Start now','b-blue'],stats:[['Proj. @30yr','~$590k'],['Advisory fee','0.25%'],['Tax','Tax-free']],match:'Strong surplus + long horizon → front-load tax-advantaged investing.'};
-  else if(a.horizon==='short') invest={name:'High-yield savings, not the market',why:'Under a 2-year horizon, market risk isn\'t worth it. Park cash at 4.3% APY.',badge:['Right vehicle','b-green'],stats:[['APY','4.3%'],['Risk','None'],['Liquidity','Instant']],match:'Short horizon → capital preservation beats returns. Matched to your timeline.'};
-  else if(a.cash==='some') invest={name:'Start a $50/mo robo-portfolio',why:'Begin compounding now with an automated, diversified portfolio matched to your risk.',badge:['Good start','b-blue'],stats:[['Start with','$50/mo'],['Portfolio','Auto-diversified'],['Fee','0.25%']],match:'Modest surplus → start small and automatic; the habit beats the amount.'};
-  else invest={name:'Build a 1-month emergency fund first',why:'Before investing, a cash cushion protects you from new high-interest debt.',badge:['Foundation','b-green'],stats:[['Target','1mo expenses'],['Where','HYSA 4.3%'],['Then','Invest']],match:'Tight cash flow → safety net before market risk. Investing comes after stability.'};
+  if(a.debt==='card') invest={name:'Hold investing — clear card debt first',issuer:'Sequenced recommendation',why:'A ~22% APR balance beats any expected market return. Pay it down first, then invest.',badge:['Sequenced','b-amber'],stats:[['Guaranteed "return"','~22%'],['Then','Auto-invest'],['Order','Debt → invest']],match:'We sequence the plan: paying down 22% debt is the best risk-free "investment" available to you today.',
+    detail:['Paying off a 22% APR balance is a guaranteed ~22% return — higher than the market\'s long-run average','Investing while carrying that balance usually loses money on net','Use the consolidation loan above to accelerate payoff, then redirect that payment into investing','We\'ll surface a Roth IRA / robo recommendation once the high-interest balance is gone'],
+    link:'',linkLabel:''};
+  else if(a.cash==='lots'&&a.horizon==='long') invest={name:'Fidelity Roth IRA',issuer:'Fidelity',why:'Tax-free growth and strong cash flow make this your highest-leverage long-term move.',badge:['Start now','b-blue'],stats:[['Account fee','$0'],['Minimum','$0'],['Trades','$0 stocks/ETFs']],match:'Strong monthly surplus + a long horizon → front-load tax-advantaged investing.',
+    detail:['Roth IRA: contributions grow tax-free and qualified withdrawals are tax-free','$0 account fees and no minimum to open','$0 commission on US stock and ETF trades','Annual contribution limit and income eligibility limits apply (check current IRS limits)','Pair with a target-date index fund for hands-off diversification'],
+    link:'https://www.fidelity.com/retirement-ira/roth-ira',linkLabel:'Open a Roth IRA at Fidelity ↗'};
+  else if(a.horizon==='short') invest={name:'Marcus High-Yield Savings',issuer:'Marcus by Goldman Sachs',why:'Under a 2-year horizon, skip market risk — earn a competitive APY with full liquidity.',badge:['Right vehicle','b-green'],stats:[['APY','Competitive*'],['Minimum','$0'],['Fees','$0']],match:'Short horizon → capital preservation beats returns. Matched to when you need the money.',
+    detail:['High-yield savings with no fees and no minimum deposit','FDIC insured up to applicable limits','Fully liquid — withdraw whenever you need the cash','*APY is variable; check the current rate on Marcus before opening'],
+    link:'https://www.marcus.com/us/en/savings/high-yield-savings',linkLabel:'See the rate on Marcus ↗'};
+  else if(a.cash==='some') invest={name:'Betterment Automated Investing',issuer:'Betterment',why:'Begin compounding now with an automated, diversified portfolio matched to your risk.',badge:['Good start','b-blue'],stats:[['Start with','$10'],['Fee','0.25%/yr'],['Portfolio','Auto-diversified']],match:'A modest surplus → start small and automatic; the habit matters more than the amount.',
+    detail:['Automated, diversified ETF portfolios matched to your goal and risk tolerance','0.25% annual management fee on the digital plan','Automatic rebalancing and tax-loss harvesting','Low minimum to get started — set up recurring deposits and forget it'],
+    link:'https://www.betterment.com/',linkLabel:'Start investing on Betterment ↗'};
+  else invest={name:'Build a 1-month emergency fund',issuer:'Marcus by Goldman Sachs',why:'Before investing, a small cash cushion protects you from taking on new high-interest debt.',badge:['Foundation','b-green'],stats:[['Target','1 mo expenses'],['Where','High-yield savings'],['Then','Invest']],match:'Tight cash flow → build the safety net before market risk. Investing comes after stability.',
+    detail:['Aim for one month of essential expenses in an accessible account first','Keep it in a high-yield savings account so it earns while staying liquid','Once funded, redirect those deposits into a robo-portfolio or Roth IRA','This buffer is what stops an emergency from becoming 22% credit-card debt'],
+    link:'https://www.marcus.com/us/en/savings/high-yield-savings',linkLabel:'Open a HYSA on Marcus ↗'};
 
   return {s,tags,card,loan,invest,debtFirst};
 }
 const PM={
-  card:{logic:'Approval-odds model (credit band) × goal weighting. Debt-carriers get balance-transfer over rewards.',metric:'Card application → approval conversion',ab:'Live: "approval odds" badge vs. "welcome bonus" as primary hook (+8.3% clicks).'},
-  loan:{logic:'Debt profile drives offer type; module is suppressed when no loan helps the member.',metric:'Qualified lead → partner hand-off rate',ab:'Running: $-savings shown up front vs. behind "check my rate".'},
-  invest:{logic:'Cash-flow tier × horizon, gated by debt. We sequence payoff before investing when APR > expected return.',metric:'Account funded within 14 days (activation)',ab:'Design: sequencing nudge — gate investing behind payoff, watch trust score.'}
+  card:{logic:'Approval-odds model (credit band) × goal weighting. Debt-carriers get a balance-transfer card over rewards.',metric:'Card application → approval conversion',ab:'Live: "approval odds" badge vs. "welcome bonus" as primary hook (+8.3% clicks).'},
+  loan:{logic:'Debt profile drives offer type; the module is suppressed when no loan helps the member.',metric:'Qualified lead → partner hand-off rate',ab:'Running: $-savings shown up front vs. behind a "check my rate" click.'},
+  invest:{logic:'Cash-flow tier × horizon, gated by debt. We sequence payoff before investing when APR > expected return.',metric:'Account funded within 14 days (activation)',ab:'Design: sequencing nudge — gate investing behind payoff, watch the trust score.'}
 };
 
+let MODS=[];
 function render(){
   const a=answers,p=buildPlan(a);
   const pct=Math.round(((p.s-500)/320)*100);
@@ -436,11 +490,11 @@ function render(){
     ?'You\'re carrying high-interest debt, so we sequenced the plan to kill that first — then build and grow.'
     :'Here\'s your prioritized plan across credit, lending, and investing — tuned to your profile, goal, and time horizon.';
   document.getElementById('tags').innerHTML=p.tags.map(x=>`<span class="tag">${x}</span>`).join('');
-  const mods=[
+  MODS=[
     {k:'card',kicker:'Consumer Credit',title:'Your card match',ico:'💳',bg:'#e6f7ed',d:p.card},
     {k:'loan',kicker:'Financial Services',title:'Lending move',ico:'🏦',bg:'#e9f1fe',d:p.loan},
     {k:'invest',kicker:'Investment Products',title:'Wealth step',ico:'📈',bg:'#fdf2dd',d:p.invest}];
-  document.getElementById('modules').innerHTML=mods.map(m=>`
+  document.getElementById('modules').innerHTML=MODS.map((m,i)=>`
     <div class="card mod">
       <div class="mod-top"><div class="mod-ico" style="background:${m.bg}">${m.ico}</div>
       <div><div class="mod-kicker">${m.kicker}</div><h3>${m.title}</h3></div></div>
@@ -449,16 +503,36 @@ function render(){
         <div class="stat">${m.d.stats.map(s=>`<div><b>${s[1]}</b>${s[0]}</div>`).join('')}</div>
       </div><span class="badge ${m.d.badge[1]}">${m.d.badge[0]}</span></div>
       <div class="why-match">✨ <span>${m.d.match}</span></div>
+      <button class="viewbtn" data-mod="${i}">View details &amp; ${m.d.link?'apply':'why'} →</button>
       <div class="pm"><div class="pm-l">PM lens · ${m.kicker}</div><div class="pm-grid">
         <div><b>Personalization logic:</b> ${PM[m.k].logic}</div>
         <div><b>Metric it moves:</b> ${PM[m.k].metric}</div>
         <div style="grid-column:1/-1"><b>Experiment:</b> ${PM[m.k].ab}</div>
       </div></div>
     </div>`).join('');
+  document.querySelectorAll('.viewbtn').forEach(b=>b.onclick=()=>openDetail(+b.dataset.mod));
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+/* detail sheet */
+function openDetail(i){
+  const m=MODS[i],d=m.d;
+  document.getElementById('dIss').textContent=`${m.kicker} · ${d.issuer}`;
+  document.getElementById('dName').textContent=d.name;
+  document.getElementById('dLead').textContent=d.why;
+  document.getElementById('dBullets').innerHTML=d.detail.map(x=>`<div class="dbul"><span class="dot">✓</span><span>${x}</span></div>`).join('');
+  const apply=document.getElementById('dApply');
+  if(d.link){apply.style.display='flex';apply.href=d.link;apply.textContent=d.linkLabel;}
+  else{apply.style.display='none';}
+  document.getElementById('overlay').classList.add('show');
+}
+function closeDetail(){document.getElementById('overlay').classList.remove('show');}
+document.getElementById('sheetClose').onclick=closeDetail;
+document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeDetail();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
+
 document.getElementById('go').onclick=render;
 document.getElementById('restart').onclick=()=>{
   document.getElementById('step2').classList.remove('active');
